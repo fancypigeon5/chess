@@ -409,8 +409,19 @@ function startingSetup() {
 }
 
 function highlight(event) {
+    removeHighlight();
     let piece = event.target.id;
     piecesOnBoard[piece].highlight();
+}
+
+function removeHighlight() {
+    let squares = document.getElementsByClassName('square');
+    for (let i = 0; i < squares.length; i++) {
+        if (squares[i].classList.contains('legal')) {
+            squares[i].classList.remove('legal');
+            squares[i].setAttribute('legal-piece', '')
+        }
+    }
 }
 
 function addListeners() {
