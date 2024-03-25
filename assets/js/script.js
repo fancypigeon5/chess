@@ -140,6 +140,46 @@ class Piece {
                 }
                 break;
             case 'bishop':
+                let fileB = file;
+                let rowB = row;
+                while (fileB + 1 <= 8 && rowB + 1 <= 8) {
+                    legalMoves.push((fileB + 1).toString() + (rowB + 1).toString());
+                    if (document.getElementById((fileB + 1).toString() + (rowB + 1).toString()).children.length !== 0) {
+                        break;
+                    }
+                    fileB++;
+                    rowB++;
+                }
+                fileB = file;
+                rowB = row;
+                while (fileB + 1 <= 8 && rowB - 1 > 0) {
+                    legalMoves.push((fileB + 1).toString() + (rowB - 1).toString());
+                    if (document.getElementById((fileB + 1).toString() + (rowB - 1).toString()).children.length !== 0) {
+                        break;
+                    }
+                    fileB++;
+                    rowB--;
+                }
+                fileB = file;
+                rowB = row;
+                while (fileB - 1 > 0 && rowB + 1 <= 8) {
+                    legalMoves.push((fileB - 1).toString() + (rowB + 1).toString());
+                    if (document.getElementById((fileB - 1).toString() + (rowB + 1).toString()).children.length !== 0) {
+                        break;
+                    }
+                    fileB--;
+                    rowB++;
+                }
+                fileB = file;
+                rowB = row;
+                while (fileB - 1 > 0 && rowB - 1 > 0) {
+                    legalMoves.push((fileB - 1).toString() + (rowB - 1).toString());
+                    if (document.getElementById((fileB - 1).toString() + (rowB - 1).toString()).children.length !== 0) {
+                        break;
+                    }
+                    fileB--;
+                    rowB--;
+                }
                 break;
             case 'rook':
                 break;
