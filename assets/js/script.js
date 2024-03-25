@@ -336,7 +336,7 @@ class Piece {
                 legalMovesLoop.push(i);
             }
         }
-        legalMoves = legalMovesLoop;
+        legalMoves = this.moveCheck(legalMovesLoop);
         return(legalMoves);
     }
     move(newPosition) {
@@ -352,6 +352,41 @@ class Piece {
         } else {
             alert('Illegal move!');
         }
+    }
+    moveCheck(moveList) {
+        let notCheckMoves = [];
+        let tempCapture = '';
+        let position = this.position;
+        for (let i of moveList) {
+            if (document.getElementById(i).children.length !== 0) {
+                tempCapture = piecesOnBoard[document.getElementById(i).children[0].id].tempCaptured();
+                this.remove();
+                this.position = i;
+                this.place();
+                if (!isCheck(this.color, document.getElementById(this.color + 'King').parentNode.id)) {
+                    notCheckMoves.push(i);
+                }
+                this.remove();
+                this.position = position;
+                this.place();
+                piecesOnBoard[tempCapture].place();
+            } else {
+                this.remove();
+                this.position = i;
+                this.place();
+                if (!isCheck(this.color, document.getElementById(this.color + 'King').parentNode.id)) {
+                    notCheckMoves.push(i);
+                }
+                this.remove();
+                this.position = position;
+                this.place();
+            }
+        }
+        return (notCheckMoves);
+    }
+    tempCaptured() {
+        this.remove();
+        return (this.pieceName)
     }
     remove() {
         let parentSquare = document.getElementById(this.position);
@@ -590,7 +625,6 @@ function isCheck(color, square) {
     }
 
     /* testing */
-    console.log(pawnSquares)
     for (let i of pawnSquares) {
         let square = document.getElementById(i);
         if (square.children.length !== 0) {
@@ -647,7 +681,7 @@ function moveToClicked(event) {
     turn = turn === 'white' ? 'black' : 'white';
     addListeners();
     if (isCheck(turn, document.getElementById(turn + 'King').parentNode.id)) {
-        alert('Check');
+        console.log('Check');
     }
 }
 
