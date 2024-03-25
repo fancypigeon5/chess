@@ -679,8 +679,8 @@ function moveToClicked(event) {
     piecesOnBoard[piece].move(clicked);
     removeListeners();
     removeHighlight();
-    if (document.getElementsById('check').length !== 0) {
-        document.getElementsById('check')[0].classList.remove('check');
+    if (document.getElementsByClassName('check').length !== 0) {
+        document.getElementsByClassName('check')[0].classList.remove('check');
     }
     turn = turn === 'white' ? 'black' : 'white';
     addListeners();
