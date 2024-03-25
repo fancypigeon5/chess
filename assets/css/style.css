@@ -1,0 +1,28 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+#board {
+    margin: auto;
+    width: 30%;
+    aspect-ratio: 1/1;
+    border: 2px solid black;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.square {
+    position: relative;
+    width: 12.5%;
+    aspect-ratio: 1/1;
+}
+
+.white {
+    background-color: #D2B48C;
+}
+
+.black {
+    background-color: #7e6953;
+}
