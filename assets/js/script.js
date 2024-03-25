@@ -339,6 +339,30 @@ class Piece {
         legalMoves = legalMovesLoop;
         return(legalMoves);
     }
+    move(newPosition) {
+        let legalMoves = this.isLegal();
+        if (legalMoves.includes(newPosition)) {
+            if (document.getElementById(newPosition).children.length !== 0) {
+                let capturedPiece = document.getElementById(newPosition).children[0];
+                piecesOnBoard[capturedPiece.id].isCaptured();
+            }
+            this.remove();
+            this.position = newPosition;
+            this.place();
+        } else {
+            alert('Illegal move!');
+        }
+    }
+    remove() {
+        let parentSquare = document.getElementById(this.position);
+        let piece = parentSquare.children[0];
+        parentSquare.removeChild(piece);
+    }
+    isCaptured() {
+        this.remove();
+        capturedPieces[this.pieceName] = piecesOnBoard[this.pieceName];
+        delete piecesOnBoard[this.pieceName];
+    }
     highlight() {
         let legalMoves = this.isLegal();
         for(let i of legalMoves) {
@@ -447,6 +471,7 @@ function addListeners() {
 
 createBoard();
 let piecesOnBoard = startingSetup();
+let capturedPieces = {};
 let turn = 'white';
 console.log(piecesOnBoard);
 addListeners();
