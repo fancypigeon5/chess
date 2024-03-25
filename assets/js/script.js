@@ -445,6 +445,191 @@ function startingSetup() {
     return (pieceCollection)
 }
 
+function isCheck(color, square) {
+    let inCheck = false;
+    let file = Number(square.charAt(0));
+    let row = Number(square.charAt(1));
+    /* pawn */
+    let pawnSquares = [];
+    if (file + 1 <= 8) {
+        if(color === 'white') {
+            if (row + 1 <= 8) {
+                pawnSquares.push((file + 1).toString() + (row + 1).toString());
+            }
+        } else {
+            if (row - 1 > 0) {
+                pawnSquares.push((file + 1).toString() + (row - 1).toString());
+            }
+        } 
+    }
+    if (file - 1 > 0) {
+        if(this.color === 'white') {
+            if(row + 1 <= 8) {
+                pawnSquares.push((file - 1).toString() + (row + 1).toString());
+            }
+            
+        } else {
+            if (row - 1 > 0) {
+                pawnSquares.push((file - 1).toString() + (row - 1).toString());
+            }
+        }  
+    }
+    /* Bishop */
+    let bishopSquares = [];
+    let fileB = file;
+    let rowB = file;
+    while (fileB + 1 <= 8 && rowB + 1 <= 8) {
+        bishopSquares.push((fileB + 1).toString() + (rowB + 1).toString());
+        if (document.getElementById((fileB + 1).toString() + (rowB + 1).toString()).children.length !== 0) {
+            break;
+        }
+        fileB++;
+        rowB++;
+    }
+    fileB = file;
+    rowB = row;
+    while (fileB + 1 <= 8 && rowB - 1 > 0) {
+        bishopSquares.push((fileB + 1).toString() + (rowB - 1).toString());
+        if (document.getElementById((fileB + 1).toString() + (rowB - 1).toString()).children.length !== 0) {
+            break;
+        }
+        fileB++;
+        rowB--;
+    }
+    fileB = file;
+    rowB = row;
+    while (fileB - 1 > 0 && rowB + 1 <= 8) {
+        bishopSquares.push((fileB - 1).toString() + (rowB + 1).toString());
+        if (document.getElementById((fileB - 1).toString() + (rowB + 1).toString()).children.length !== 0) {
+            break;
+        }
+        fileB--;
+        rowB++;
+    }
+    fileB = file;
+    rowB = row;
+    while (fileB - 1 > 0 && rowB - 1 > 0) {
+        bishopSquares.push((fileB - 1).toString() + (rowB - 1).toString());
+        if (document.getElementById((fileB - 1).toString() + (rowB - 1).toString()).children.length !== 0) {
+            break;
+        }
+        fileB--;
+        rowB--;
+    }
+    /* Rook */
+    let rookSquares = [];
+    let fileR = file;
+    let rowR = row;
+    while (fileR + 1 <= 8) {
+        rookSquares.push((fileR + 1).toString() + rowR.toString());
+        if (document.getElementById((fileR + 1).toString() + rowR.toString()).children.length !== 0) {
+            break;
+        }
+        fileR++;
+    }
+    fileR = file;
+    rowR = row;
+    while (fileR - 1 > 0) {
+        rookSquares.push((fileR - 1).toString() + rowR.toString());
+        if (document.getElementById((fileR - 1).toString() + rowR.toString()).children.length !== 0) {
+            break;
+        }
+        fileR--;
+    }
+    fileR = file;
+    rowR = row;
+    while (rowR + 1 <= 8) {
+        rookSquares.push(fileR .toString() + (rowR + 1).toString());
+        if (document.getElementById(fileR.toString() + (rowR + 1).toString()).children.length !== 0) {
+            break;
+        }
+        rowR++;
+    }
+    fileR = file;
+    rowR = row;
+    while (rowR - 1 > 0) {
+        rookSquares.push(fileR .toString() + (rowR - 1).toString());
+        if (document.getElementById(fileR.toString() + (rowR - 1).toString()).children.length !== 0) {
+            break;
+        }
+        rowR--;
+    }
+    /* Knight */
+    let knightSquares = [];
+    if (file + 2 <= 8) {
+        if (row + 1 <= 8) {
+            knightSquares.push((file + 2).toString() + (row + 1).toString());
+        }
+        if (row - 1 > 0) {
+            knightSquares.push((file + 2).toString() + (row - 1).toString());
+        }
+    }
+    if (file - 2 > 0) {
+        if (row + 1 <= 8) {
+            knightSquares.push((file - 2).toString() + (row + 1).toString());                        
+        }
+        if (row - 1 > 0) {
+            knightSquares.push((file - 2).toString() + (row - 1).toString());
+        }
+    }
+    if (row + 2 <= 8) {
+        if (file + 1 <= 8) {
+            knightSquares.push((file + 1).toString() + (row + 2).toString());
+        }
+        if (file - 1 > 0) {
+            knightSquares.push((file - 1).toString() + (row + 2).toString());
+        }
+    }
+    if (row - 2 > 0) {
+        if (file + 1 <= 8) {
+            knightSquares.push((file + 1).toString() + (row - 2).toString());
+        }
+        if (file - 1 > 0) {
+            knightSquares.push((file - 1).toString() + (row - 2).toString());
+        }
+    }
+
+    /* testing */
+    console.log(pawnSquares)
+    for (let i of pawnSquares) {
+        let square = document.getElementById(i);
+        if (square.children.length !== 0) {
+            if (square.children[0].classList.contains('pawn') && !square.children[0].classList.contains(color)) {
+                inCheck = true;
+            }
+        }
+    }
+    for (let i of knightSquares) {
+        let square = document.getElementById(i);
+        if (square.children.length !== 0) {
+            if (square.children[0].classList.contains('knight') && !square.children[0].classList.contains(color)) {
+                inCheck = true;
+            }
+        }
+    }
+    for (let i of bishopSquares) {
+        let square = document.getElementById(i);
+        if (square.children.length !== 0) {
+            if (square.children[0].classList.contains('bishop') && !square.children[0].classList.contains(color)) {
+                inCheck = true;
+            } else if (square.children[0].classList.contains('queen') && !square.children[0].classList.contains(color)) {
+                inCheck = true;
+            }
+        }
+    }
+    for (let i of rookSquares) {
+        let square = document.getElementById(i);
+        if (square.children.length !== 0) {
+            if (square.children[0].classList.contains('rook') && !square.children[0].classList.contains(color)) {
+                inCheck = true;
+            } else if (square.children[0].classList.contains('queen') && !square.children[0].classList.contains(color)) {
+                inCheck = true;
+            }
+        }
+    }
+    return(inCheck);
+}
+
 function moveToClicked(event) {
     let clicked;
     let piece;
@@ -461,6 +646,9 @@ function moveToClicked(event) {
     removeHighlight();
     turn = turn === 'white' ? 'black' : 'white';
     addListeners();
+    if (isCheck(turn, document.getElementById(turn + 'King').parentNode.id)) {
+        alert('Check');
+    }
 }
 
 function highlight(event) {
