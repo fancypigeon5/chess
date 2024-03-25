@@ -298,6 +298,30 @@ class Piece {
                 }
                 break;
             case 'king':
+                if (file + 1 <= 8 && row + 1 <= 8) {
+                    legalMoves.push((file + 1).toString() + (row + 1).toString());
+                }
+                if (file + 1 <= 8 && row - 1 > 0) {
+                    legalMoves.push((file + 1).toString() + (row - 1).toString());
+                }
+                if (file - 1 > 0 && row + 1 <= 8) {
+                    legalMoves.push((file - 1).toString() + (row + 1).toString());
+                }
+                if (file - 1 > 0 && row - 1 > 0) {
+                    legalMoves.push((file - 1).toString() + (row - 1).toString());
+                }
+                if (file + 1 <= 8) {
+                    legalMoves.push((file + 1).toString() + row.toString());   
+                }
+                if (file - 1 > 0) {
+                    legalMoves.push((file - 1).toString() + row.toString());
+                }
+                if (row + 1 <= 8) {
+                    legalMoves.push(file.toString() + (row + 1).toString());
+                }
+                if (row - 1 > 0) {
+                    legalMoves.push(file.toString() + (row - 1).toString());
+                }
                 break;
         }
         return(legalMoves);
