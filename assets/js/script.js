@@ -46,6 +46,78 @@ class Piece {
         pieceDisplayed.innerHTML = this.display;
         parentSquare.appendChild(pieceDisplayed);
     }
+    isLegal() {
+        let legalMoves = [];
+        let file = Number(this.position.charAt(0));
+        let row = Number(this.position.charAt(1));
+        switch(this.piece) {
+            case 'pawn':
+                let startingRow = this.color === 'white' ? 2 : 7;
+                if(this.color === 'white') {
+                    if (document.getElementById(file.toString() + (row + 1).toString()).children.length === 0) {
+                        legalMoves.push(file.toString() + (row + 1).toString());
+                    }
+                } else {
+                    if (document.getElementById(file.toString() + (row - 1).toString()).children.length === 0) {
+                        legalMoves.push(file.toString() + (row - 1).toString());
+                    }
+                }
+                if (row === startingRow) {
+                    if(this.color === 'white') {
+                        if (document.getElementById(file.toString() + (row + 1).toString()).children.length === 0 && document.getElementById(file.toString() + (row + 2).toString()).children.length === 0) {
+                            legalMoves.push(file.toString() + (row + 2).toString());
+                        }
+                    } else {
+                        if (document.getElementById(file.toString() + (row - 1).toString()).children.length === 0 && document.getElementById(file.toString() + (row - 2).toString()).children.length === 0) {
+                            legalMoves.push(file.toString() + (row - 2).toString());
+                        }
+                    }
+                    
+                }
+                if (file + 1 <= 8) {
+                    if(this.color === 'white') {
+                        if (document.getElementById((file + 1).toString() + (row + 1).toString()).children.length !== 0) {
+                            if (!document.getElementById((file + 1).toString() + (row + 1).toString()).children[0].classList.contains(this.color)) {
+                                legalMoves.push((file + 1).toString() + (row + 1).toString());
+                            }
+                        }
+                    } else {
+                        if (document.getElementById((file + 1).toString() + (row - 1).toString()).children.length !== 0) {
+                            if (!document.getElementById((file + 1).toString() + (row - 1).toString()).children[0].classList.contains(this.color)) {
+                                legalMoves.push((file + 1).toString() + (row - 1).toString());
+                            }
+                        }
+                    }  
+                }
+                if (file - 1 > 0) {
+                    if(this.color === 'white') {
+                        if (document.getElementById((file - 1).toString() + (row + 1).toString()).children.length !== 0) {
+                            if (!document.getElementById((file - 1).toString() + (row + 1).toString()).children[0].classList.contains(this.color)) {
+                                legalMoves.push((file - 1).toString() + (row + 1).toString());
+                            }
+                        }
+                    } else {
+                        if (document.getElementById((file - 1).toString() + (row - 1).toString()).children.length !== 0) {
+                            if (!document.getElementById((file - 1).toString() + (row - 1).toString()).children[0].classList.contains(this.color)) {
+                                legalMoves.push((file - 1).toString() + (row - 1).toString());
+                            }
+                        }
+                    }  
+                }
+                break;
+            case 'knight':
+                break;
+            case 'bishop':
+                break;
+            case 'rook':
+                break;
+            case 'queen':
+                break;
+            case 'king':
+                break;
+        }
+        return(legalMoves);
+    }
 }
 
 function startingSetup() {
