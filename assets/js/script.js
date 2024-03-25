@@ -445,10 +445,36 @@ function startingSetup() {
     return (pieceCollection)
 }
 
+function moveToClicked(event) {
+    let clicked;
+    let piece;
+    if (event.target.classList.contains('square')) {
+        clicked = event.target.id;
+        piece = event.target.getAttribute('legal-piece');
+    } else {
+        clicked = event.target.parentNode.id;
+        piece = event.target.parentNode.getAttribute('legal-piece');
+    }
+    
+    piecesOnBoard[piece].move(clicked);
+    removeListeners();
+    removeHighlight();
+    turn = turn === 'white' ? 'black' : 'white';
+    addListeners();
+}
+
 function highlight(event) {
     removeHighlight();
     let piece = event.target.id;
     piecesOnBoard[piece].highlight();
+    let possibleMoves = document.getElementsByClassName('legal');
+    for (let i = 0; i < possibleMoves.length; i++) {
+        if(possibleMoves[i].children.length === 0) {
+            possibleMoves[i].addEventListener('click', moveToClicked)
+        } else {
+            possibleMoves[i].children[0].addEventListener('click', moveToClicked)
+        }  
+    }
 }
 
 function removeHighlight() {
@@ -457,6 +483,10 @@ function removeHighlight() {
         if (squares[i].classList.contains('legal')) {
             squares[i].classList.remove('legal');
             squares[i].setAttribute('legal-piece', '')
+        }
+        let possibleMoves = document.getElementsByClassName('legal');
+        for (let i = 0; i < possibleMoves.length; i++) {
+            possibleMoves[i].removeEventListener('click', moveToClicked)
         }
     }
 }
