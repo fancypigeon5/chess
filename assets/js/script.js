@@ -182,6 +182,42 @@ class Piece {
                 }
                 break;
             case 'rook':
+                let fileR = file;
+                let rowR = row;
+                while (fileR + 1 <= 8) {
+                    legalMoves.push((fileR + 1).toString() + rowR.toString());
+                    if (document.getElementById((fileR + 1).toString() + rowR.toString()).children.length !== 0) {
+                        break;
+                    }
+                    fileR++;
+                }
+                fileR = file;
+                rowR = row;
+                while (fileR - 1 > 0) {
+                    legalMoves.push((fileR - 1).toString() + rowR.toString());
+                    if (document.getElementById((fileR - 1).toString() + rowR.toString()).children.length !== 0) {
+                        break;
+                    }
+                    fileR--;
+                }
+                fileR = file;
+                rowR = row;
+                while (rowR + 1 <= 8) {
+                    legalMoves.push(fileR .toString() + (rowR + 1).toString());
+                    if (document.getElementById(fileR.toString() + (rowR + 1).toString()).children.length !== 0) {
+                        break;
+                    }
+                    rowR++;
+                }
+                fileR = file;
+                rowR = row;
+                while (rowR - 1 > 0) {
+                    legalMoves.push(fileR .toString() + (rowR - 1).toString());
+                    if (document.getElementById(fileR.toString() + (rowR - 1).toString()).children.length !== 0) {
+                        break;
+                    }
+                    rowR--;
+                }
                 break;
             case 'queen':
                 break;
