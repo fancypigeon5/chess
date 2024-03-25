@@ -491,6 +491,15 @@ function removeHighlight() {
     }
 }
 
+function removeListeners() {
+    let pieces = document.getElementsByClassName('piece');
+    for (let i = 0; i < pieces.length; i++) {
+        if (pieces[i].classList.contains(turn)) {
+            pieces[i].removeEventListener('click', highlight);
+        }
+    }
+}
+
 function addListeners() {
     for (let i in piecesOnBoard) {
         if (document.getElementById(i).classList.contains(turn)) {
