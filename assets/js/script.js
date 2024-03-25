@@ -48,6 +48,7 @@ class Piece {
     }
     isLegal() {
         let legalMoves = [];
+        let legalMovesLoop = [];
         let file = Number(this.position.charAt(0));
         let row = Number(this.position.charAt(1));
         switch(this.piece) {
@@ -324,6 +325,18 @@ class Piece {
                 }
                 break;
         }
+        for (let i of legalMoves) {
+            let isOccupied = document.getElementById(i).children.length !== 0;
+            if (isOccupied) {
+                let occupiedBy = !document.getElementById(i).children[0].classList.contains(this.color);
+                if (occupiedBy) {
+                    legalMovesLoop.push(i);
+                }
+            } else {
+                legalMovesLoop.push(i);
+            }
+        }
+        legalMoves = legalMovesLoop;
         return(legalMoves);
     }
     highlight() {
