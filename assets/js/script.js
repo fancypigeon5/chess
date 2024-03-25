@@ -106,6 +106,38 @@ class Piece {
                 }
                 break;
             case 'knight':
+                if (file + 2 <= 8) {
+                    if (row + 1 <= 8) {
+                        legalMoves.push((file + 2).toString() + (row + 1).toString());
+                    }
+                    if (row - 1 > 0) {
+                        legalMoves.push((file + 2).toString() + (row - 1).toString());
+                    }
+                }
+                if (file - 2 > 0) {
+                    if (row + 1 <= 8) {
+                        legalMoves.push((file - 2).toString() + (row + 1).toString());                        
+                    }
+                    if (row - 1 > 0) {
+                        legalMoves.push((file - 2).toString() + (row - 1).toString());
+                    }
+                }
+                if (row + 2 <= 8) {
+                    if (file + 1 <= 8) {
+                        legalMoves.push((file + 1).toString() + (row + 2).toString());
+                    }
+                    if (file - 1 > 0) {
+                        legalMoves.push((file - 1).toString() + (row + 2).toString());
+                    }
+                }
+                if (row - 2 > 0) {
+                    if (file + 1 <= 8) {
+                        legalMoves.push((file + 1).toString() + (row - 2).toString());
+                    }
+                    if (file - 1 > 0) {
+                        legalMoves.push((file - 1).toString() + (row - 2).toString());
+                    }
+                }
                 break;
             case 'bishop':
                 break;
