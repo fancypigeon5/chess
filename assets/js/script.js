@@ -19,31 +19,32 @@ class Piece {
         this.position = startingPosition;
         switch(piece) {
             case 'pawn':
-                this.display = 'P';
+                this.url = 'assets/images/' + this.color + '-pawn.svg';
                 break;
             case 'knight':
-                this.display = 'N';
+                this.url = 'assets/images/' + this.color + '-knight.svg';
                 break;
             case 'bishop':
-                this.display = 'B';
+                this.url = 'assets/images/' + this.color + '-bishop.svg';
                 break;
             case 'rook':
-                this.display = 'R';
+                this.url = 'assets/images/' + this.color + '-rook.svg';
                 break;
             case 'queen':
-                this.display = 'Q';
+                this.url = 'assets/images/' + this.color + '-queen.svg';
                 break;
             case 'king':
-                this.display = 'K';
+                this.url = 'assets/images/' + this.color + '-king.svg';
                 break;
         }
     }
     place() {
         let parentSquare = document.getElementById(this.position);
-        let pieceDisplayed = document.createElement('h1');
+        let pieceDisplayed = document.createElement('img');
         pieceDisplayed.setAttribute('class', 'piece ' + this.color + ' ' + this.piece);
         pieceDisplayed.setAttribute('id', this.pieceName);
-        pieceDisplayed.innerHTML = this.display;
+        pieceDisplayed.setAttribute('src', this.url)
+        pieceDisplayed.setAttribute('alt', this.color + this.piece)
         parentSquare.appendChild(pieceDisplayed);
     }
     isLegal() {
@@ -678,16 +679,21 @@ function moveToClicked(event) {
     piecesOnBoard[piece].move(clicked);
     removeListeners();
     removeHighlight();
+    if (document.getElementById(turn + 'King').parentNode.classList.contains('check')) {
+        document.getElementById(turn + 'King').parentNode.classList.remove('check');
+    }
     turn = turn === 'white' ? 'black' : 'white';
     addListeners();
     if (isCheck(turn, document.getElementById(turn + 'King').parentNode.id)) {
-        console.log('Check');
+        document.getElementById(turn + 'King').parentNode.classList.add('check');
     }
 }
 
 function highlight(event) {
     removeHighlight();
+    addListeners();
     let piece = event.target.id;
+    event.target.parentNode.classList.add('to-move');
     piecesOnBoard[piece].highlight();
     let possibleMoves = document.getElementsByClassName('legal');
     for (let i = 0; i < possibleMoves.length; i++) {
@@ -705,6 +711,8 @@ function removeHighlight() {
         if (squares[i].classList.contains('legal')) {
             squares[i].classList.remove('legal');
             squares[i].setAttribute('legal-piece', '')
+        } else if (squares[i].classList.contains('to-move')) {
+            squares[i].classList.remove('to-move');
         }
         let possibleMoves = document.getElementsByClassName('legal');
         for (let i = 0; i < possibleMoves.length; i++) {
