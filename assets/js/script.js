@@ -408,6 +408,21 @@ function startingSetup() {
     return (pieceCollection)
 }
 
+function highlight(event) {
+    let piece = event.target.id;
+    piecesOnBoard[piece].highlight();
+}
+
+function addListeners() {
+    for (let i in piecesOnBoard) {
+        if (document.getElementById(i).classList.contains(turn)) {
+            document.getElementById(i).addEventListener('click', highlight);
+        }
+    }
+}
+
 createBoard();
 let piecesOnBoard = startingSetup();
+let turn = 'white';
 console.log(piecesOnBoard);
+addListeners();
