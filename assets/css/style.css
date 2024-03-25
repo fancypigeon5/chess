@@ -26,3 +26,23 @@
 .black {
     background-color: #7e6953;
 }
+
+h1 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    aspect-ratio: 1/1;
+    text-align: center;
+    font-size: xx-large;
+}
+
+h1.white {
+    background-color: transparent;
+    color: white;
+}
+
+h1.black {
+    background-color: transparent;
+    color: black;
+}
