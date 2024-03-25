@@ -326,6 +326,14 @@ class Piece {
         }
         return(legalMoves);
     }
+    highlight() {
+        let legalMoves = this.isLegal();
+        for(let i of legalMoves) {
+            let legalsquare = document.getElementById(i);
+            legalsquare.classList.add('legal');
+            legalsquare.setAttribute('legal-piece', this.pieceName);
+        }
+    }
 }
 
 function startingSetup() {
