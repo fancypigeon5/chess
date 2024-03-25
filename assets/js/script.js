@@ -220,6 +220,82 @@ class Piece {
                 }
                 break;
             case 'queen':
+                let fileQ = file;
+                let rowQ = row;
+                while (fileQ + 1 <= 8 && rowQ + 1 <= 8) {
+                    legalMoves.push((fileQ + 1).toString() + (rowQ + 1).toString());
+                    if (document.getElementById((fileQ + 1).toString() + (rowQ + 1).toString()).children.length !== 0) {
+                        break;
+                    }
+                    fileQ++;
+                    rowQ++;
+                }
+                fileQ = file;
+                rowQ = row;
+                while (fileQ + 1 <= 8 && rowQ - 1 > 0) {
+                    legalMoves.push((fileQ + 1).toString() + (rowQ - 1).toString());
+                    if (document.getElementById((fileQ + 1).toString() + (rowQ - 1).toString()).children.length !== 0) {
+                        break;
+                    }
+                    fileQ++;
+                    rowQ--;
+                }
+                fileQ = file;
+                rowQ = row;
+                while (fileQ - 1 > 0 && rowQ + 1 <= 8) {
+                    legalMoves.push((fileQ - 1).toString() + (rowQ + 1).toString());
+                    if (document.getElementById((fileQ - 1).toString() + (rowQ + 1).toString()).children.length !== 0) {
+                        break;
+                    }
+                    fileQ--;
+                    rowQ++;
+                }
+                fileQ = file;
+                rowQ = row;
+                while (fileQ - 1 > 0 && rowQ - 1 > 0) {
+                    legalMoves.push((fileQ - 1).toString() + (rowQ - 1).toString());
+                    if (document.getElementById((fileQ - 1).toString() + (rowQ - 1).toString()).children.length !== 0) {
+                        break;
+                    }
+                    fileQ--;
+                    rowQ--;
+                }
+                fileQ = file;
+                rowQ = row;
+                while (fileQ + 1 <= 8) {
+                    legalMoves.push((fileQ + 1).toString() + rowQ.toString());
+                    if (document.getElementById((fileQ + 1).toString() + rowQ.toString()).children.length !== 0) {
+                        break;
+                    }
+                    fileQ++;
+                }
+                fileQ = file;
+                rowQ = row;
+                while (fileQ - 1 > 0) {
+                    legalMoves.push((fileQ - 1).toString() + rowQ.toString());
+                    if (document.getElementById((fileQ - 1).toString() + rowQ.toString()).children.length !== 0) {
+                        break;
+                    }
+                    fileQ--;
+                }
+                fileQ = file;
+                rowQ = row;
+                while (rowQ + 1 <= 8) {
+                    legalMoves.push(fileQ .toString() + (rowQ + 1).toString());
+                    if (document.getElementById(fileQ.toString() + (rowQ + 1).toString()).children.length !== 0) {
+                        break;
+                    }
+                    rowQ++;
+                }
+                fileQ = file;
+                rowQ = row;
+                while (rowQ - 1 > 0) {
+                    legalMoves.push(fileQ .toString() + (rowQ - 1).toString());
+                    if (document.getElementById(fileQ.toString() + (rowQ - 1).toString()).children.length !== 0) {
+                        break;
+                    }
+                    rowQ--;
+                }
                 break;
             case 'king':
                 break;
