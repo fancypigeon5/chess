@@ -17,6 +17,7 @@ class Piece {
         this.piece = piece;
         this.color = color;
         this.position = startingPosition;
+        this.moved = false;
         switch(piece) {
             case 'pawn':
                 this.url = 'assets/images/' + this.color + '-pawn.svg';
@@ -321,6 +322,36 @@ class Piece {
                 }
                 break;
             case 'king':
+                if (!this.moved) {
+                    if (!isCheck(this.color, (file + 1).toString() + row.toString())) {
+                        let fileK = file;
+                        while (fileK + 1 <= 8) {
+                            
+                            if (document.getElementById((fileK + 1).toString() + row.toString()).children.length !== 0) {
+                                let piece = document.getElementById((fileK + 1).toString() + row.toString()).children[0].id;
+                                if (piecesOnBoard[piece].piece === 'rook' && !piecesOnBoard[piece].moved) {
+                                    legalMoves.push((file + 2).toString() + row.toString())
+                                }
+                                break;
+                            }
+                            fileK++;
+                        }
+                    }
+                    if (!isCheck(this.color, (file - 1).toString() + row.toString())) {
+                        let fileK = file;
+                        while (fileK - 1 > 0) {
+                            if (document.getElementById((fileK - 1).toString() + row.toString()).children.length !== 0) {
+                                let piece = document.getElementById((fileK - 1).toString() + row.toString()).children[0].id;
+                                if (piecesOnBoard[piece].piece === 'rook' && !piecesOnBoard[piece].moved) {
+                                    legalMoves.push((file - 2).toString() + row.toString())
+                                }
+                                break;
+                            }
+                            fileK--;
+                        }
+                    }
+                    
+                }
                 if (file + 1 <= 8 && row + 1 <= 8) {
                     legalMoves.push((file + 1).toString() + (row + 1).toString());
                 }
@@ -383,9 +414,19 @@ class Piece {
                     }
                 }
             }
+            if (this.piece === 'king') {
+                if (newPosition === (Number(this.position.charAt(0)) + 2).toString() + this.position.charAt(1)) {
+                    let rook = document.getElementById('8' + this.position.charAt(1)).children[0].id;
+                    piecesOnBoard[rook].move('6' + this.position.charAt(1))
+                } else if (newPosition === (Number(this.position.charAt(0)) - 2).toString() + this.position.charAt(1)) {
+                    let rook = document.getElementById('1' + this.position.charAt(1)).children[0].id;
+                    piecesOnBoard[rook].move('4' + this.position.charAt(1))
+                }
+            }
             this.remove();
             this.position = newPosition;
             this.place();
+            this.moved = true;
         } else {
             alert('Illegal move!');
         }
