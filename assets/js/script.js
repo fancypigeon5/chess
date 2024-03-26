@@ -162,6 +162,7 @@ class Piece {
                         legalMoves.push((file - 1).toString() + (row - 2).toString());
                     }
                 }
+                console.log(legalMoves)
                 break;
             case 'bishop':
                 let fileB = file;
@@ -389,6 +390,7 @@ class Piece {
                 legalMovesLoop.push(i);
             }
         }
+        console.log(legalMovesLoop)
         legalMoves = this.moveCheck(legalMovesLoop);
         return(legalMoves);
     }
@@ -454,12 +456,17 @@ class Piece {
                 this.place();
                 if (!isCheck(this.color, document.getElementById(this.color + 'King').parentNode.id)) {
                     notCheckMoves.push(i);
+                    console.log(i);
                 }
+                
+                console.log(this.color);
+                console.log(document.getElementById(this.color + 'King').parentNode.id);
                 this.remove();
                 this.position = position;
                 this.place();
             }
         }
+        console.log(notCheckMoves)
         return (notCheckMoves);
     }
     tempCaptured() {
@@ -484,13 +491,32 @@ class Piece {
             legalsquare.setAttribute('legal-piece', this.pieceName);
         }
     }
+    promote (piece) {
+        this.piece = piece;
+        switch (piece) {
+            case 'knight':
+                this.url = 'assets/images/' + this.color + '-knight.svg';
+                break;
+            case 'bishop':
+                this.url = 'assets/images/' + this.color + '-bishop.svg';
+                break;
+            case 'rook':
+                this.url = 'assets/images/' + this.color + '-rook.svg';
+                break;
+            case 'queen':
+                this.url = 'assets/images/' + this.color + '-queen.svg';
+                break;
+        }
+        this.remove();
+        this.place();
+    }
 }
 
 function startingSetup() {
     let pieces = {};
     let pieceCollection = {}
     
-    for(let color of ['black', 'white']) {
+    for (let color of ['black', 'white']) {
         let col = 1;
         
         for(let column of ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']) {
@@ -590,7 +616,7 @@ function isCheck(color, square) {
     /* Bishop */
     let bishopSquares = [];
     let fileB = file;
-    let rowB = file;
+    let rowB = row;
     while (fileB + 1 <= 8 && rowB + 1 <= 8) {
         bishopSquares.push((fileB + 1).toString() + (rowB + 1).toString());
         if (document.getElementById((fileB + 1).toString() + (rowB + 1).toString()).children.length !== 0) {
@@ -719,6 +745,7 @@ function isCheck(color, square) {
             }
         }
     }
+    console.log('bi' + bishopSquares);
     for (let i of bishopSquares) {
         let square = document.getElementById(i);
         if (square.children.length !== 0) {
@@ -758,6 +785,26 @@ function moveToClicked(event) {
         enPassantable = true;
 
     }
+    if (piecesOnBoard[piece].piece === 'pawn') {
+        if (clicked.charAt(1) === '8' || clicked.charAt(1) === '1') {
+            let promoteDiv = document.createElement('div');
+            let promoteField = document.createElement('div');
+            promoteDiv.setAttribute('id', 'promote');
+            promoteField.setAttribute('id', 'promotefield')
+            for (let i of ['knight', 'bishop', 'rook', 'queen']) {
+                let possiblePiece = document.createElement('img');
+                possiblePiece.setAttribute('class', 'promotionimage');
+                possiblePiece.setAttribute('id', i);
+                possiblePiece.setAttribute('name', piece);
+                possiblePiece.setAttribute('src', 'assets/images/' + turn + '-' + i + '.svg');
+                possiblePiece.setAttribute('alt', i);
+                possiblePiece.addEventListener('click', promotePawn);
+                promoteField.appendChild(possiblePiece);
+            }
+            promoteDiv.appendChild(promoteField);
+            document.body.appendChild(promoteDiv);
+        }
+    } 
     piecesOnBoard[piece].move(clicked);
     if (!enPassantable) {
         enPassant = '';
@@ -772,6 +819,18 @@ function moveToClicked(event) {
     if (isCheck(turn, document.getElementById(turn + 'King').parentNode.id)) {
         document.getElementById(turn + 'King').parentNode.classList.add('check');
     }
+}
+
+function promotePawn(event) {
+    let promote = event.target.id;
+    let pawn = event.target.name;
+    for (let i = 0; i < document.getElementsByClassName('promotionimage').length; i++) {
+        if (document.getElementsByClassName('promotionimage')[i] !== promote) {
+            document.getElementsByClassName('promotionimage')[i].removeEventListener('click', promotePawn);
+        }
+    }
+    document.getElementById('promote').remove();
+    piecesOnBoard[pawn].promote(promote);
 }
 
 function highlight(event) {
