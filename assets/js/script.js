@@ -83,25 +83,46 @@ class Piece {
                                 legalMoves.push((file + 1).toString() + (row + 1).toString());
                             }
                         }
+                        if (enPassant.length !== 0) {
+                            if ((file + 1).toString() + (row).toString() === enPassant) {
+                                legalMoves.push((file + 1).toString() + (row + 1).toString())
+                            }
+                        }
                     } else {
                         if (document.getElementById((file + 1).toString() + (row - 1).toString()).children.length !== 0) {
                             if (!document.getElementById((file + 1).toString() + (row - 1).toString()).children[0].classList.contains(this.color)) {
                                 legalMoves.push((file + 1).toString() + (row - 1).toString());
                             }
                         }
-                    }  
+                        if (enPassant.length !== 0) {
+                            if ((file + 1).toString() + (row).toString() === enPassant) {
+                                legalMoves.push((file + 1).toString() + (row - 1).toString())
+                            }
+                        }
+                    }
+                    
                 }
                 if (file - 1 > 0) {
                     if(this.color === 'white') {
                         if (document.getElementById((file - 1).toString() + (row + 1).toString()).children.length !== 0) {
                             if (!document.getElementById((file - 1).toString() + (row + 1).toString()).children[0].classList.contains(this.color)) {
                                 legalMoves.push((file - 1).toString() + (row + 1).toString());
+                            }    
+                        }
+                        if (enPassant.length !== 0) {
+                            if ((file - 1).toString() + (row).toString() === enPassant) {
+                                legalMoves.push((file - 1).toString() + (row + 1).toString())
                             }
                         }
                     } else {
                         if (document.getElementById((file - 1).toString() + (row - 1).toString()).children.length !== 0) {
                             if (!document.getElementById((file - 1).toString() + (row - 1).toString()).children[0].classList.contains(this.color)) {
                                 legalMoves.push((file - 1).toString() + (row - 1).toString());
+                            }
+                        }
+                        if (enPassant.length !== 0) {
+                            if ((file - 1).toString() + (row).toString() === enPassant) {
+                                legalMoves.push((file - 1).toString() + (row - 1).toString())
                             }
                         }
                     }  
@@ -346,6 +367,21 @@ class Piece {
             if (document.getElementById(newPosition).children.length !== 0) {
                 let capturedPiece = document.getElementById(newPosition).children[0];
                 piecesOnBoard[capturedPiece.id].isCaptured();
+            }
+            if (enPassant !== '') {
+                if (this.piece === 'pawn') {
+                    if (this.color === 'white') {
+                        if (newPosition === enPassant.charAt(0) + (Number(enPassant.charAt(1)) + 1).toString()) {
+                            let capturedPiece = document.getElementById(enPassant).children[0];
+                            piecesOnBoard[capturedPiece.id].isCaptured();
+                        } 
+                    } else {
+                        if (newPosition === enPassant.charAt(0) + (Number(enPassant.charAt(1)) - 1).toString()) {
+                            let capturedPiece = document.getElementById(enPassant).children[0];
+                            piecesOnBoard[capturedPiece.id].isCaptured();
+                        } 
+                    }
+                }
             }
             this.remove();
             this.position = newPosition;
@@ -668,6 +704,7 @@ function isCheck(color, square) {
 function moveToClicked(event) {
     let clicked;
     let piece;
+    let enPassantable = false;
     if (event.target.classList.contains('square')) {
         clicked = event.target.id;
         piece = event.target.getAttribute('legal-piece');
@@ -675,8 +712,15 @@ function moveToClicked(event) {
         clicked = event.target.parentNode.id;
         piece = event.target.parentNode.getAttribute('legal-piece');
     }
-    
+    if (piecesOnBoard[piece].piece === 'pawn' && Math.abs(Number(piecesOnBoard[piece].position.charAt(1)) - Number(clicked.charAt(1))) === 2) {
+        enPassant = clicked;
+        enPassantable = true;
+
+    }
     piecesOnBoard[piece].move(clicked);
+    if (!enPassantable) {
+        enPassant = '';
+    }
     removeListeners();
     removeHighlight();
     if (document.getElementsByClassName('check').length !== 0) {
@@ -741,6 +785,7 @@ function addListeners() {
 createBoard();
 let piecesOnBoard = startingSetup();
 let capturedPieces = {};
+let enPassant = '';
 let turn = 'white';
 console.log(piecesOnBoard);
 addListeners();
