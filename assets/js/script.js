@@ -18,26 +18,6 @@ class Piece {
         this.color = color;
         this.position = startingPosition;
         this.moved = false;
-        /* switch(piece) {
-            case 'pawn':
-                this.url = 'assets/images/' + this.color + '-pawn.svg';
-                break;
-            case 'knight':
-                this.url = 'assets/images/' + this.color + '-knight.svg';
-                break;
-            case 'bishop':
-                this.url = 'assets/images/' + this.color + '-bishop.svg';
-                break;
-            case 'rook':
-                this.url = 'assets/images/' + this.color + '-rook.svg';
-                break;
-            case 'queen':
-                this.url = 'assets/images/' + this.color + '-queen.svg';
-                break;
-            case 'king':
-                this.url = 'assets/images/' + this.color + '-king.svg';
-                break;
-        } */
     }
     place() {
         let parentSquare = document.getElementById(this.position);
@@ -48,337 +28,18 @@ class Piece {
         pieceDisplayed.setAttribute('alt', this.color + this.piece)
         parentSquare.appendChild(pieceDisplayed);
     }
-    isLegal() {
-        let legalMoves = [];
+    generateLegalMoves() {
+        return []
+    }
+    file() {
+        return Number(this.position.charAt(0));
+    }
+    row() {
+        return Number(this.position.charAt(1));
+    }
+    legalMoves() {
+        let legalMoves = this.generateLegalMoves();
         let legalMovesLoop = [];
-        let file = Number(this.position.charAt(0));
-        let row = Number(this.position.charAt(1));
-        switch(this.piece) {
-            case 'pawn':
-                let startingRow = this.color === 'white' ? 2 : 7;
-                if(this.color === 'white') {
-                    if (document.getElementById(file.toString() + (row + 1).toString()).children.length === 0) {
-                        legalMoves.push(file.toString() + (row + 1).toString());
-                    }
-                } else {
-                    if (document.getElementById(file.toString() + (row - 1).toString()).children.length === 0) {
-                        legalMoves.push(file.toString() + (row - 1).toString());
-                    }
-                }
-                if (row === startingRow) {
-                    if(this.color === 'white') {
-                        if (document.getElementById(file.toString() + (row + 1).toString()).children.length === 0 && document.getElementById(file.toString() + (row + 2).toString()).children.length === 0) {
-                            legalMoves.push(file.toString() + (row + 2).toString());
-                        }
-                    } else {
-                        if (document.getElementById(file.toString() + (row - 1).toString()).children.length === 0 && document.getElementById(file.toString() + (row - 2).toString()).children.length === 0) {
-                            legalMoves.push(file.toString() + (row - 2).toString());
-                        }
-                    }
-                    
-                }
-                if (file + 1 <= 8) {
-                    if(this.color === 'white') {
-                        if (document.getElementById((file + 1).toString() + (row + 1).toString()).children.length !== 0) {
-                            if (!document.getElementById((file + 1).toString() + (row + 1).toString()).children[0].classList.contains(this.color)) {
-                                legalMoves.push((file + 1).toString() + (row + 1).toString());
-                            }
-                        }
-                        if (enPassant.length !== 0) {
-                            if ((file + 1).toString() + (row).toString() === enPassant) {
-                                legalMoves.push((file + 1).toString() + (row + 1).toString())
-                            }
-                        }
-                    } else {
-                        if (document.getElementById((file + 1).toString() + (row - 1).toString()).children.length !== 0) {
-                            if (!document.getElementById((file + 1).toString() + (row - 1).toString()).children[0].classList.contains(this.color)) {
-                                legalMoves.push((file + 1).toString() + (row - 1).toString());
-                            }
-                        }
-                        if (enPassant.length !== 0) {
-                            if ((file + 1).toString() + (row).toString() === enPassant) {
-                                legalMoves.push((file + 1).toString() + (row - 1).toString())
-                            }
-                        }
-                    }
-                    
-                }
-                if (file - 1 > 0) {
-                    if(this.color === 'white') {
-                        if (document.getElementById((file - 1).toString() + (row + 1).toString()).children.length !== 0) {
-                            if (!document.getElementById((file - 1).toString() + (row + 1).toString()).children[0].classList.contains(this.color)) {
-                                legalMoves.push((file - 1).toString() + (row + 1).toString());
-                            }    
-                        }
-                        if (enPassant.length !== 0) {
-                            if ((file - 1).toString() + (row).toString() === enPassant) {
-                                legalMoves.push((file - 1).toString() + (row + 1).toString())
-                            }
-                        }
-                    } else {
-                        if (document.getElementById((file - 1).toString() + (row - 1).toString()).children.length !== 0) {
-                            if (!document.getElementById((file - 1).toString() + (row - 1).toString()).children[0].classList.contains(this.color)) {
-                                legalMoves.push((file - 1).toString() + (row - 1).toString());
-                            }
-                        }
-                        if (enPassant.length !== 0) {
-                            if ((file - 1).toString() + (row).toString() === enPassant) {
-                                legalMoves.push((file - 1).toString() + (row - 1).toString())
-                            }
-                        }
-                    }  
-                }
-                break;
-            case 'knight':
-                if (file + 2 <= 8) {
-                    if (row + 1 <= 8) {
-                        legalMoves.push((file + 2).toString() + (row + 1).toString());
-                    }
-                    if (row - 1 > 0) {
-                        legalMoves.push((file + 2).toString() + (row - 1).toString());
-                    }
-                }
-                if (file - 2 > 0) {
-                    if (row + 1 <= 8) {
-                        legalMoves.push((file - 2).toString() + (row + 1).toString());                        
-                    }
-                    if (row - 1 > 0) {
-                        legalMoves.push((file - 2).toString() + (row - 1).toString());
-                    }
-                }
-                if (row + 2 <= 8) {
-                    if (file + 1 <= 8) {
-                        legalMoves.push((file + 1).toString() + (row + 2).toString());
-                    }
-                    if (file - 1 > 0) {
-                        legalMoves.push((file - 1).toString() + (row + 2).toString());
-                    }
-                }
-                if (row - 2 > 0) {
-                    if (file + 1 <= 8) {
-                        legalMoves.push((file + 1).toString() + (row - 2).toString());
-                    }
-                    if (file - 1 > 0) {
-                        legalMoves.push((file - 1).toString() + (row - 2).toString());
-                    }
-                }
-                console.log(legalMoves)
-                break;
-            case 'bishop':
-                let fileB = file;
-                let rowB = row;
-                while (fileB + 1 <= 8 && rowB + 1 <= 8) {
-                    legalMoves.push((fileB + 1).toString() + (rowB + 1).toString());
-                    if (document.getElementById((fileB + 1).toString() + (rowB + 1).toString()).children.length !== 0) {
-                        break;
-                    }
-                    fileB++;
-                    rowB++;
-                }
-                fileB = file;
-                rowB = row;
-                while (fileB + 1 <= 8 && rowB - 1 > 0) {
-                    legalMoves.push((fileB + 1).toString() + (rowB - 1).toString());
-                    if (document.getElementById((fileB + 1).toString() + (rowB - 1).toString()).children.length !== 0) {
-                        break;
-                    }
-                    fileB++;
-                    rowB--;
-                }
-                fileB = file;
-                rowB = row;
-                while (fileB - 1 > 0 && rowB + 1 <= 8) {
-                    legalMoves.push((fileB - 1).toString() + (rowB + 1).toString());
-                    if (document.getElementById((fileB - 1).toString() + (rowB + 1).toString()).children.length !== 0) {
-                        break;
-                    }
-                    fileB--;
-                    rowB++;
-                }
-                fileB = file;
-                rowB = row;
-                while (fileB - 1 > 0 && rowB - 1 > 0) {
-                    legalMoves.push((fileB - 1).toString() + (rowB - 1).toString());
-                    if (document.getElementById((fileB - 1).toString() + (rowB - 1).toString()).children.length !== 0) {
-                        break;
-                    }
-                    fileB--;
-                    rowB--;
-                }
-                break;
-            case 'rook':
-                let fileR = file;
-                let rowR = row;
-                while (fileR + 1 <= 8) {
-                    legalMoves.push((fileR + 1).toString() + rowR.toString());
-                    if (document.getElementById((fileR + 1).toString() + rowR.toString()).children.length !== 0) {
-                        break;
-                    }
-                    fileR++;
-                }
-                fileR = file;
-                rowR = row;
-                while (fileR - 1 > 0) {
-                    legalMoves.push((fileR - 1).toString() + rowR.toString());
-                    if (document.getElementById((fileR - 1).toString() + rowR.toString()).children.length !== 0) {
-                        break;
-                    }
-                    fileR--;
-                }
-                fileR = file;
-                rowR = row;
-                while (rowR + 1 <= 8) {
-                    legalMoves.push(fileR .toString() + (rowR + 1).toString());
-                    if (document.getElementById(fileR.toString() + (rowR + 1).toString()).children.length !== 0) {
-                        break;
-                    }
-                    rowR++;
-                }
-                fileR = file;
-                rowR = row;
-                while (rowR - 1 > 0) {
-                    legalMoves.push(fileR .toString() + (rowR - 1).toString());
-                    if (document.getElementById(fileR.toString() + (rowR - 1).toString()).children.length !== 0) {
-                        break;
-                    }
-                    rowR--;
-                }
-                break;
-            case 'queen':
-                let fileQ = file;
-                let rowQ = row;
-                while (fileQ + 1 <= 8 && rowQ + 1 <= 8) {
-                    legalMoves.push((fileQ + 1).toString() + (rowQ + 1).toString());
-                    if (document.getElementById((fileQ + 1).toString() + (rowQ + 1).toString()).children.length !== 0) {
-                        break;
-                    }
-                    fileQ++;
-                    rowQ++;
-                }
-                fileQ = file;
-                rowQ = row;
-                while (fileQ + 1 <= 8 && rowQ - 1 > 0) {
-                    legalMoves.push((fileQ + 1).toString() + (rowQ - 1).toString());
-                    if (document.getElementById((fileQ + 1).toString() + (rowQ - 1).toString()).children.length !== 0) {
-                        break;
-                    }
-                    fileQ++;
-                    rowQ--;
-                }
-                fileQ = file;
-                rowQ = row;
-                while (fileQ - 1 > 0 && rowQ + 1 <= 8) {
-                    legalMoves.push((fileQ - 1).toString() + (rowQ + 1).toString());
-                    if (document.getElementById((fileQ - 1).toString() + (rowQ + 1).toString()).children.length !== 0) {
-                        break;
-                    }
-                    fileQ--;
-                    rowQ++;
-                }
-                fileQ = file;
-                rowQ = row;
-                while (fileQ - 1 > 0 && rowQ - 1 > 0) {
-                    legalMoves.push((fileQ - 1).toString() + (rowQ - 1).toString());
-                    if (document.getElementById((fileQ - 1).toString() + (rowQ - 1).toString()).children.length !== 0) {
-                        break;
-                    }
-                    fileQ--;
-                    rowQ--;
-                }
-                fileQ = file;
-                rowQ = row;
-                while (fileQ + 1 <= 8) {
-                    legalMoves.push((fileQ + 1).toString() + rowQ.toString());
-                    if (document.getElementById((fileQ + 1).toString() + rowQ.toString()).children.length !== 0) {
-                        break;
-                    }
-                    fileQ++;
-                }
-                fileQ = file;
-                rowQ = row;
-                while (fileQ - 1 > 0) {
-                    legalMoves.push((fileQ - 1).toString() + rowQ.toString());
-                    if (document.getElementById((fileQ - 1).toString() + rowQ.toString()).children.length !== 0) {
-                        break;
-                    }
-                    fileQ--;
-                }
-                fileQ = file;
-                rowQ = row;
-                while (rowQ + 1 <= 8) {
-                    legalMoves.push(fileQ .toString() + (rowQ + 1).toString());
-                    if (document.getElementById(fileQ.toString() + (rowQ + 1).toString()).children.length !== 0) {
-                        break;
-                    }
-                    rowQ++;
-                }
-                fileQ = file;
-                rowQ = row;
-                while (rowQ - 1 > 0) {
-                    legalMoves.push(fileQ .toString() + (rowQ - 1).toString());
-                    if (document.getElementById(fileQ.toString() + (rowQ - 1).toString()).children.length !== 0) {
-                        break;
-                    }
-                    rowQ--;
-                }
-                break;
-            case 'king':
-                if (!this.moved) {
-                    if (!isCheck(this.color, (file + 1).toString() + row.toString())) {
-                        let fileK = file;
-                        while (fileK + 1 <= 8) {
-                            
-                            if (document.getElementById((fileK + 1).toString() + row.toString()).children.length !== 0) {
-                                let piece = document.getElementById((fileK + 1).toString() + row.toString()).children[0].id;
-                                if (piecesOnBoard[piece].piece === 'rook' && !piecesOnBoard[piece].moved) {
-                                    legalMoves.push((file + 2).toString() + row.toString())
-                                }
-                                break;
-                            }
-                            fileK++;
-                        }
-                    }
-                    if (!isCheck(this.color, (file - 1).toString() + row.toString())) {
-                        let fileK = file;
-                        while (fileK - 1 > 0) {
-                            if (document.getElementById((fileK - 1).toString() + row.toString()).children.length !== 0) {
-                                let piece = document.getElementById((fileK - 1).toString() + row.toString()).children[0].id;
-                                if (piecesOnBoard[piece].piece === 'rook' && !piecesOnBoard[piece].moved) {
-                                    legalMoves.push((file - 2).toString() + row.toString())
-                                }
-                                break;
-                            }
-                            fileK--;
-                        }
-                    }
-                    
-                }
-                if (file + 1 <= 8 && row + 1 <= 8) {
-                    legalMoves.push((file + 1).toString() + (row + 1).toString());
-                }
-                if (file + 1 <= 8 && row - 1 > 0) {
-                    legalMoves.push((file + 1).toString() + (row - 1).toString());
-                }
-                if (file - 1 > 0 && row + 1 <= 8) {
-                    legalMoves.push((file - 1).toString() + (row + 1).toString());
-                }
-                if (file - 1 > 0 && row - 1 > 0) {
-                    legalMoves.push((file - 1).toString() + (row - 1).toString());
-                }
-                if (file + 1 <= 8) {
-                    legalMoves.push((file + 1).toString() + row.toString());   
-                }
-                if (file - 1 > 0) {
-                    legalMoves.push((file - 1).toString() + row.toString());
-                }
-                if (row + 1 <= 8) {
-                    legalMoves.push(file.toString() + (row + 1).toString());
-                }
-                if (row - 1 > 0) {
-                    legalMoves.push(file.toString() + (row - 1).toString());
-                }
-                break;
-        }
         for (let i of legalMoves) {
             let isOccupied = document.getElementById(i).children.length !== 0;
             if (isOccupied) {
@@ -390,41 +51,23 @@ class Piece {
                 legalMovesLoop.push(i);
             }
         }
-        console.log(legalMovesLoop)
         legalMoves = this.moveCheck(legalMovesLoop);
         return(legalMoves);
     }
+    enPassant() {
+    }
+    casteling() {
+
+    }
     move(newPosition) {
-        let legalMoves = this.isLegal();
+        let legalMoves = this.legalMoves();
         if (legalMoves.includes(newPosition)) {
             if (document.getElementById(newPosition).children.length !== 0) {
                 let capturedPiece = document.getElementById(newPosition).children[0];
                 piecesOnBoard[capturedPiece.id].isCaptured();
             }
-            if (enPassant !== '') {
-                if (this.piece === 'pawn') {
-                    if (this.color === 'white') {
-                        if (newPosition === enPassant.charAt(0) + (Number(enPassant.charAt(1)) + 1).toString()) {
-                            let capturedPiece = document.getElementById(enPassant).children[0];
-                            piecesOnBoard[capturedPiece.id].isCaptured();
-                        } 
-                    } else {
-                        if (newPosition === enPassant.charAt(0) + (Number(enPassant.charAt(1)) - 1).toString()) {
-                            let capturedPiece = document.getElementById(enPassant).children[0];
-                            piecesOnBoard[capturedPiece.id].isCaptured();
-                        } 
-                    }
-                }
-            }
-            if (this.piece === 'king') {
-                if (newPosition === (Number(this.position.charAt(0)) + 2).toString() + this.position.charAt(1)) {
-                    let rook = document.getElementById('8' + this.position.charAt(1)).children[0].id;
-                    piecesOnBoard[rook].move('6' + this.position.charAt(1))
-                } else if (newPosition === (Number(this.position.charAt(0)) - 2).toString() + this.position.charAt(1)) {
-                    let rook = document.getElementById('1' + this.position.charAt(1)).children[0].id;
-                    piecesOnBoard[rook].move('4' + this.position.charAt(1))
-                }
-            }
+            this.enPassant(newPosition);
+            this.casteling(newPosition);
             this.remove();
             this.position = newPosition;
             this.place();
@@ -456,17 +99,12 @@ class Piece {
                 this.place();
                 if (!isCheck(this.color, document.getElementById(this.color + 'King').parentNode.id)) {
                     notCheckMoves.push(i);
-                    console.log(i);
                 }
-                
-                console.log(this.color);
-                console.log(document.getElementById(this.color + 'King').parentNode.id);
                 this.remove();
                 this.position = position;
                 this.place();
             }
         }
-        console.log(notCheckMoves)
         return (notCheckMoves);
     }
     tempCaptured() {
@@ -484,31 +122,12 @@ class Piece {
         delete piecesOnBoard[this.pieceName];
     }
     highlight() {
-        let legalMoves = this.isLegal();
+        let legalMoves = this.legalMoves();
         for(let i of legalMoves) {
             let legalsquare = document.getElementById(i);
             legalsquare.classList.add('legal');
             legalsquare.setAttribute('legal-piece', this.pieceName);
         }
-    }
-    promote (piece) {
-        this.piece = piece;
-        switch (piece) {
-            case 'knight':
-                this.url = 'assets/images/' + this.color + '-knight.svg';
-                break;
-            case 'bishop':
-                this.url = 'assets/images/' + this.color + '-bishop.svg';
-                break;
-            case 'rook':
-                this.url = 'assets/images/' + this.color + '-rook.svg';
-                break;
-            case 'queen':
-                this.url = 'assets/images/' + this.color + '-queen.svg';
-                break;
-        }
-        this.remove();
-        this.place();
     }
 }
 
@@ -517,12 +136,167 @@ class Pawn extends Piece {
         super(pieceName, 'pawn', color, startingPosition);
         this.url = 'assets/images/' + this.color + '-pawn.svg';
     }
+
+    generateLegalMoves() {
+        let legalMoves = [];
+        let file = this.file();
+        let row = this.row();
+        let startingRow = this.color === 'white' ? 2 : 7;
+        if(this.color === 'white') {
+            if (document.getElementById(file.toString() + (row + 1).toString()).children.length === 0) {
+                legalMoves.push(file.toString() + (row + 1).toString());
+            }
+        } else {
+            if (document.getElementById(file.toString() + (row - 1).toString()).children.length === 0) {
+                legalMoves.push(file.toString() + (row - 1).toString());
+            }
+        }
+        if (row === startingRow) {
+            if(this.color === 'white') {
+                if (document.getElementById(file.toString() + (row + 1).toString()).children.length === 0 && document.getElementById(file.toString() + (row + 2).toString()).children.length === 0) {
+                    legalMoves.push(file.toString() + (row + 2).toString());
+                }
+            } else {
+                if (document.getElementById(file.toString() + (row - 1).toString()).children.length === 0 && document.getElementById(file.toString() + (row - 2).toString()).children.length === 0) {
+                    legalMoves.push(file.toString() + (row - 2).toString());
+                }
+            }
+            
+        }
+        if (file + 1 <= 8) {
+            if(this.color === 'white') {
+                if (document.getElementById((file + 1).toString() + (row + 1).toString()).children.length !== 0) {
+                    if (!document.getElementById((file + 1).toString() + (row + 1).toString()).children[0].classList.contains(this.color)) {
+                        legalMoves.push((file + 1).toString() + (row + 1).toString());
+                    }
+                }
+                if (enPassant.length !== 0) {
+                    if ((file + 1).toString() + (row).toString() === enPassant) {
+                        legalMoves.push((file + 1).toString() + (row + 1).toString())
+                    }
+                }
+            } else {
+                if (document.getElementById((file + 1).toString() + (row - 1).toString()).children.length !== 0) {
+                    if (!document.getElementById((file + 1).toString() + (row - 1).toString()).children[0].classList.contains(this.color)) {
+                        legalMoves.push((file + 1).toString() + (row - 1).toString());
+                    }
+                }
+                if (enPassant.length !== 0) {
+                    if ((file + 1).toString() + (row).toString() === enPassant) {
+                        legalMoves.push((file + 1).toString() + (row - 1).toString())
+                    }
+                }
+            }
+            
+        }
+        if (file - 1 > 0) {
+            if(this.color === 'white') {
+                if (document.getElementById((file - 1).toString() + (row + 1).toString()).children.length !== 0) {
+                    if (!document.getElementById((file - 1).toString() + (row + 1).toString()).children[0].classList.contains(this.color)) {
+                        legalMoves.push((file - 1).toString() + (row + 1).toString());
+                    }    
+                }
+                if (enPassant.length !== 0) {
+                    if ((file - 1).toString() + (row).toString() === enPassant) {
+                        legalMoves.push((file - 1).toString() + (row + 1).toString())
+                    }
+                }
+            } else {
+                if (document.getElementById((file - 1).toString() + (row - 1).toString()).children.length !== 0) {
+                    if (!document.getElementById((file - 1).toString() + (row - 1).toString()).children[0].classList.contains(this.color)) {
+                        legalMoves.push((file - 1).toString() + (row - 1).toString());
+                    }
+                }
+                if (enPassant.length !== 0) {
+                    if ((file - 1).toString() + (row).toString() === enPassant) {
+                        legalMoves.push((file - 1).toString() + (row - 1).toString())
+                    }
+                }
+            }  
+        }
+        return legalMoves;
+    }
+
+    enPassant(newPosition) {
+        if (enPassant !== '') {
+            if (this.color === 'white') {
+                if (newPosition === enPassant.charAt(0) + (Number(enPassant.charAt(1)) + 1).toString()) {
+                    let capturedPiece = document.getElementById(enPassant).children[0];
+                    piecesOnBoard[capturedPiece.id].isCaptured();
+                } 
+            } else {
+                if (newPosition === enPassant.charAt(0) + (Number(enPassant.charAt(1)) - 1).toString()) {
+                    let capturedPiece = document.getElementById(enPassant).children[0];
+                    piecesOnBoard[capturedPiece.id].isCaptured();
+                } 
+            }
+        }
+    }
+
+    promote (piece) {
+        let name = this.color + 'Promoted' + piece;
+        switch (piece) {
+            case 'knight':
+                piecesOnBoard[name] = new Knight(name, this.color, this.position);
+                break;
+            case 'bishop':
+                piecesOnBoard[name] = new Bishop(name, this.color, this.position);
+                break;
+            case 'rook':
+                piecesOnBoard[name] = new Rook(name, this.color, this.position);
+                break;
+            case 'queen':
+                piecesOnBoard[name] = new Queen(name, this.color, this.position);
+                break;
+        }
+        this.remove();
+        piecesOnBoard[name].place();
+    }
 }
 
 class Knight extends Piece {
     constructor(pieceName, color, startingPosition) {
         super(pieceName, 'knight', color, startingPosition);
         this.url = 'assets/images/' + this.color + '-knight.svg';
+    }
+
+    generateLegalMoves() {
+        let legalMoves = [];
+        let file = this.file();
+        let row = this.row();
+        if (file + 2 <= 8) {
+            if (row + 1 <= 8) {
+                legalMoves.push((file + 2).toString() + (row + 1).toString());
+            }
+            if (row - 1 > 0) {
+                legalMoves.push((file + 2).toString() + (row - 1).toString());
+            }
+        }
+        if (file - 2 > 0) {
+            if (row + 1 <= 8) {
+                legalMoves.push((file - 2).toString() + (row + 1).toString());                        
+            }
+            if (row - 1 > 0) {
+                legalMoves.push((file - 2).toString() + (row - 1).toString());
+            }
+        }
+        if (row + 2 <= 8) {
+            if (file + 1 <= 8) {
+                legalMoves.push((file + 1).toString() + (row + 2).toString());
+            }
+            if (file - 1 > 0) {
+                legalMoves.push((file - 1).toString() + (row + 2).toString());
+            }
+        }
+        if (row - 2 > 0) {
+            if (file + 1 <= 8) {
+                legalMoves.push((file + 1).toString() + (row - 2).toString());
+            }
+            if (file - 1 > 0) {
+                legalMoves.push((file - 1).toString() + (row - 2).toString());
+            }
+        }
+        return legalMoves;
     }
 }
 
@@ -531,12 +305,102 @@ class Bishop extends Piece {
         super(pieceName, 'bishop', color, startingPosition);
         this.url = 'assets/images/' + this.color + '-bishop.svg';
     }
+
+    generateLegalMoves() {
+        let legalMoves = [];
+        let file = this.file();
+        let row = this.row();
+        let fileB = file;
+        let rowB = row;
+        while (fileB + 1 <= 8 && rowB + 1 <= 8) {
+            legalMoves.push((fileB + 1).toString() + (rowB + 1).toString());
+            if (document.getElementById((fileB + 1).toString() + (rowB + 1).toString()).children.length !== 0) {
+                break;
+            }
+            fileB++;
+            rowB++;
+        }
+        fileB = file;
+        rowB = row;
+        while (fileB + 1 <= 8 && rowB - 1 > 0) {
+            legalMoves.push((fileB + 1).toString() + (rowB - 1).toString());
+            if (document.getElementById((fileB + 1).toString() + (rowB - 1).toString()).children.length !== 0) {
+                break;
+            }
+            fileB++;
+            rowB--;
+        }
+        fileB = file;
+        rowB = row;
+        while (fileB - 1 > 0 && rowB + 1 <= 8) {
+            legalMoves.push((fileB - 1).toString() + (rowB + 1).toString());
+            if (document.getElementById((fileB - 1).toString() + (rowB + 1).toString()).children.length !== 0) {
+                break;
+            }
+            fileB--;
+            rowB++;
+        }
+        fileB = file;
+        rowB = row;
+        while (fileB - 1 > 0 && rowB - 1 > 0) {
+            legalMoves.push((fileB - 1).toString() + (rowB - 1).toString());
+            if (document.getElementById((fileB - 1).toString() + (rowB - 1).toString()).children.length !== 0) {
+                break;
+            }
+            fileB--;
+            rowB--;
+        }
+        return legalMoves;
+    }
 }
 
 class Rook extends Piece {
     constructor(pieceName, color, startingPosition) {
         super(pieceName, 'rook', color, startingPosition);
         this.url = 'assets/images/' + this.color + '-rook.svg';
+    }
+
+    generateLegalMoves() {
+        let legalMoves = [];
+        let file = this.file();
+        let row = this.row();
+        let fileR = file;
+        let rowR = row;
+        while (fileR + 1 <= 8) {
+            legalMoves.push((fileR + 1).toString() + rowR.toString());
+            if (document.getElementById((fileR + 1).toString() + rowR.toString()).children.length !== 0) {
+                break;
+            }
+            fileR++;
+        }
+        fileR = file;
+        rowR = row;
+        while (fileR - 1 > 0) {
+            legalMoves.push((fileR - 1).toString() + rowR.toString());
+            if (document.getElementById((fileR - 1).toString() + rowR.toString()).children.length !== 0) {
+                break;
+            }
+            fileR--;
+        }
+        fileR = file;
+        rowR = row;
+        while (rowR + 1 <= 8) {
+            legalMoves.push(fileR .toString() + (rowR + 1).toString());
+            if (document.getElementById(fileR.toString() + (rowR + 1).toString()).children.length !== 0) {
+                break;
+            }
+            rowR++;
+        }
+        fileR = file;
+        rowR = row;
+        while (rowR - 1 > 0) {
+            legalMoves.push(fileR .toString() + (rowR - 1).toString());
+            if (document.getElementById(fileR.toString() + (rowR - 1).toString()).children.length !== 0) {
+                break;
+            }
+            rowR--;
+        }
+        return legalMoves;
     }
 }
 
@@ -545,6 +409,89 @@ class Queen extends Piece {
         super(pieceName, 'queen', color, startingPosition);
         this.url = 'assets/images/' + this.color + '-queen.svg';
     }
+    
+    generateLegalMoves() {
+        let legalMoves = [];
+        let file = this.file();
+        let row = this.row();
+        let fileQ = file;
+        let rowQ = row;
+        while (fileQ + 1 <= 8 && rowQ + 1 <= 8) {
+            legalMoves.push((fileQ + 1).toString() + (rowQ + 1).toString());
+            if (document.getElementById((fileQ + 1).toString() + (rowQ + 1).toString()).children.length !== 0) {
+                break;
+            }
+            fileQ++;
+            rowQ++;
+        }
+        fileQ = file;
+        rowQ = row;
+        while (fileQ + 1 <= 8 && rowQ - 1 > 0) {
+            legalMoves.push((fileQ + 1).toString() + (rowQ - 1).toString());
+            if (document.getElementById((fileQ + 1).toString() + (rowQ - 1).toString()).children.length !== 0) {
+                break;
+            }
+            fileQ++;
+            rowQ--;
+        }
+        fileQ = file;
+        rowQ = row;
+        while (fileQ - 1 > 0 && rowQ + 1 <= 8) {
+            legalMoves.push((fileQ - 1).toString() + (rowQ + 1).toString());
+            if (document.getElementById((fileQ - 1).toString() + (rowQ + 1).toString()).children.length !== 0) {
+                break;
+            }
+            fileQ--;
+            rowQ++;
+        }
+        fileQ = file;
+        rowQ = row;
+        while (fileQ - 1 > 0 && rowQ - 1 > 0) {
+            legalMoves.push((fileQ - 1).toString() + (rowQ - 1).toString());
+            if (document.getElementById((fileQ - 1).toString() + (rowQ - 1).toString()).children.length !== 0) {
+                break;
+            }
+            fileQ--;
+            rowQ--;
+        }
+        fileQ = file;
+        rowQ = row;
+        while (fileQ + 1 <= 8) {
+            legalMoves.push((fileQ + 1).toString() + rowQ.toString());
+            if (document.getElementById((fileQ + 1).toString() + rowQ.toString()).children.length !== 0) {
+                break;
+            }
+            fileQ++;
+        }
+        fileQ = file;
+        rowQ = row;
+        while (fileQ - 1 > 0) {
+            legalMoves.push((fileQ - 1).toString() + rowQ.toString());
+            if (document.getElementById((fileQ - 1).toString() + rowQ.toString()).children.length !== 0) {
+                break;
+            }
+            fileQ--;
+        }
+        fileQ = file;
+        rowQ = row;
+        while (rowQ + 1 <= 8) {
+            legalMoves.push(fileQ .toString() + (rowQ + 1).toString());
+            if (document.getElementById(fileQ.toString() + (rowQ + 1).toString()).children.length !== 0) {
+                break;
+            }
+            rowQ++;
+        }
+        fileQ = file;
+        rowQ = row;
+        while (rowQ - 1 > 0) {
+            legalMoves.push(fileQ .toString() + (rowQ - 1).toString());
+            if (document.getElementById(fileQ.toString() + (rowQ - 1).toString()).children.length !== 0) {
+                break;
+            }
+            rowQ--;
+        }
+        return legalMoves;
+    }
 }
 
 class King extends Piece {
@@ -552,15 +499,84 @@ class King extends Piece {
         super(pieceName, 'king', color, startingPosition);
         this.url = 'assets/images/' + this.color + '-king.svg';
     }
+
+    generateLegalMoves() {
+        let legalMoves = [];
+        let file = this.file();
+        let row = this.row();
+        if (!this.moved) {
+            if (!isCheck(this.color, (file + 1).toString() + row.toString())) {
+                let fileK = file;
+                while (fileK + 1 <= 8) {
+                    
+                    if (document.getElementById((fileK + 1).toString() + row.toString()).children.length !== 0) {
+                        let piece = document.getElementById((fileK + 1).toString() + row.toString()).children[0].id;
+                        if (piecesOnBoard[piece].piece === 'rook' && !piecesOnBoard[piece].moved) {
+                            legalMoves.push((file + 2).toString() + row.toString())
+                        }
+                        break;
+                    }
+                    fileK++;
+                }
+            }
+            if (!isCheck(this.color, (file - 1).toString() + row.toString())) {
+                let fileK = file;
+                while (fileK - 1 > 0) {
+                    if (document.getElementById((fileK - 1).toString() + row.toString()).children.length !== 0) {
+                        let piece = document.getElementById((fileK - 1).toString() + row.toString()).children[0].id;
+                        if (piecesOnBoard[piece].piece === 'rook' && !piecesOnBoard[piece].moved) {
+                            legalMoves.push((file - 2).toString() + row.toString())
+                        }
+                        break;
+                    }
+                    fileK--;
+                }
+            }
+            
+        }
+        if (file + 1 <= 8 && row + 1 <= 8) {
+            legalMoves.push((file + 1).toString() + (row + 1).toString());
+        }
+        if (file + 1 <= 8 && row - 1 > 0) {
+            legalMoves.push((file + 1).toString() + (row - 1).toString());
+        }
+        if (file - 1 > 0 && row + 1 <= 8) {
+            legalMoves.push((file - 1).toString() + (row + 1).toString());
+        }
+        if (file - 1 > 0 && row - 1 > 0) {
+            legalMoves.push((file - 1).toString() + (row - 1).toString());
+        }
+        if (file + 1 <= 8) {
+            legalMoves.push((file + 1).toString() + row.toString());   
+        }
+        if (file - 1 > 0) {
+            legalMoves.push((file - 1).toString() + row.toString());
+        }
+        if (row + 1 <= 8) {
+            legalMoves.push(file.toString() + (row + 1).toString());
+        }
+        if (row - 1 > 0) {
+            legalMoves.push(file.toString() + (row - 1).toString());
+        }
+        return legalMoves;
+    }
+
+    casteling(newPosition) {
+        if (newPosition === (Number(this.position.charAt(0)) + 2).toString() + this.position.charAt(1)) {
+            let rook = document.getElementById('8' + this.position.charAt(1)).children[0].id;
+            piecesOnBoard[rook].move('6' + this.position.charAt(1))
+        } else if (newPosition === (Number(this.position.charAt(0)) - 2).toString() + this.position.charAt(1)) {
+            let rook = document.getElementById('1' + this.position.charAt(1)).children[0].id;
+            piecesOnBoard[rook].move('4' + this.position.charAt(1))
+        }
+    }
 }
 
 function startingSetup() {
-    let pieces = {};
     let pieceCollection = {}
-    
     for (let color of ['black', 'white']) {
+        /* pawns */
         let col = 1;
-        
         for(let column of ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']) {
             let thisPiece = color + column + 'Pawn';
             let row = color === 'white' ? '2' : '7';
@@ -568,36 +584,36 @@ function startingSetup() {
             pieceCollection[thisPiece].place();
             col++;
         }
+        /* knights */
         for(let i of [2, 7]) {
             let thisPiece = color + i + 'Knight';
             let row = color === 'white' ? '1' : '8';
             pieceCollection[thisPiece] = new Knight(thisPiece, color, i.toString() + row);
             pieceCollection[thisPiece].place();
         }
+        /* bishops */
         for(let i of [3, 6]) {
             let thisPiece = color + i + 'Bishop';
             let row = color === 'white' ? '1' : '8';
             pieceCollection[thisPiece] = new Bishop(thisPiece, color, i.toString() + row);
             pieceCollection[thisPiece].place();
         }
+        /* rooks */
         for(let i of [1, 8]) {
             let thisPiece = color + i + 'Rook';
             let row = color === 'white' ? '1' : '8';
             pieceCollection[thisPiece] = new Rook(thisPiece, color, i.toString() + row);
             pieceCollection[thisPiece].place();
         }
+        /* queen */
         let thisPiece = color + 'Queen';
         let row = color === 'white' ? '1' : '8';
         pieceCollection[thisPiece] = new Queen(thisPiece, color, '4' + row);
         pieceCollection[thisPiece].place();
+        /* king */
         thisPiece = color + 'King';
         pieceCollection[thisPiece] = new King(thisPiece, color, '5' + row);
         pieceCollection[thisPiece].place();
-    }
-    for(let p in pieces) {
-        let newPiece = new Piece(pieces[p].name, pieces[p].piece, pieces[p].color, pieces[p].startingPosition);
-        newPiece.place();
-        pieceCollection[p] = newPiece;
     }
     return (pieceCollection)
 }
@@ -763,7 +779,6 @@ function isCheck(color, square) {
             }
         }
     }
-    console.log('bi' + bishopSquares);
     for (let i of bishopSquares) {
         let square = document.getElementById(i);
         if (square.children.length !== 0) {
@@ -803,6 +818,9 @@ function moveToClicked(event) {
         enPassantable = true;
 
     }
+    
+    piecesOnBoard[piece].move(clicked);
+    
     if (piecesOnBoard[piece].piece === 'pawn') {
         if (clicked.charAt(1) === '8' || clicked.charAt(1) === '1') {
             let promoteDiv = document.createElement('div');
@@ -823,7 +841,6 @@ function moveToClicked(event) {
             document.body.appendChild(promoteDiv);
         }
     } 
-    piecesOnBoard[piece].move(clicked);
     if (!enPassantable) {
         enPassant = '';
     }
@@ -849,6 +866,10 @@ function promotePawn(event) {
     }
     document.getElementById('promote').remove();
     piecesOnBoard[pawn].promote(promote);
+    delete piecesOnBoard[pawn];
+    if (isCheck(turn, document.getElementById(turn + 'King').parentNode.id)) {
+        document.getElementById(turn + 'King').parentNode.classList.add('check');
+    }
 }
 
 function highlight(event) {
