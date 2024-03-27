@@ -850,9 +850,31 @@ function moveToClicked(event) {
         document.getElementsByClassName('check')[0].classList.remove('check');
     }
     turn = turn === 'white' ? 'black' : 'white';
-    addListeners();
+    
     if (isCheck(turn, document.getElementById(turn + 'King').parentNode.id)) {
         document.getElementById(turn + 'King').parentNode.classList.add('check');
+    }
+    checkEndConditions();
+    addListeners();
+}
+
+function checkEndConditions() {
+    let movesLeft = false;
+    for (let i in piecesOnBoard) {
+        if(piecesOnBoard[i].color === turn) {
+            let legalMoves = piecesOnBoard[i].legalMoves();
+            if (legalMoves.length !== 0) {
+                movesLeft = true;
+            }
+        }    
+    }
+    if (!movesLeft) {
+        console.log('end')
+        if (isCheck(turn, document.getElementById(turn + 'King').parentNode.id)) {
+            alert('Checkmate!!!!');
+        } else {
+            alert('Stalemate!!!!');
+        }
     }
 }
 
