@@ -18,7 +18,7 @@ class Piece {
         this.color = color;
         this.position = startingPosition;
         this.moved = false;
-        switch(piece) {
+        /* switch(piece) {
             case 'pawn':
                 this.url = 'assets/images/' + this.color + '-pawn.svg';
                 break;
@@ -37,7 +37,7 @@ class Piece {
             case 'king':
                 this.url = 'assets/images/' + this.color + '-king.svg';
                 break;
-        }
+        } */
     }
     place() {
         let parentSquare = document.getElementById(this.position);
@@ -512,6 +512,48 @@ class Piece {
     }
 }
 
+class Pawn extends Piece {
+    constructor(pieceName, color, startingPosition) {
+        super(pieceName, 'pawn', color, startingPosition);
+        this.url = 'assets/images/' + this.color + '-pawn.svg';
+    }
+}
+
+class Knight extends Piece {
+    constructor(pieceName, color, startingPosition) {
+        super(pieceName, 'knight', color, startingPosition);
+        this.url = 'assets/images/' + this.color + '-knight.svg';
+    }
+}
+
+class Bishop extends Piece {
+    constructor(pieceName, color, startingPosition) {
+        super(pieceName, 'bishop', color, startingPosition);
+        this.url = 'assets/images/' + this.color + '-bishop.svg';
+    }
+}
+
+class Rook extends Piece {
+    constructor(pieceName, color, startingPosition) {
+        super(pieceName, 'rook', color, startingPosition);
+        this.url = 'assets/images/' + this.color + '-rook.svg';
+    }
+}
+
+class Queen extends Piece {
+    constructor(pieceName, color, startingPosition) {
+        super(pieceName, 'queen', color, startingPosition);
+        this.url = 'assets/images/' + this.color + '-queen.svg';
+    }
+}
+
+class King extends Piece {
+    constructor(pieceName, color, startingPosition) {
+        super(pieceName, 'king', color, startingPosition);
+        this.url = 'assets/images/' + this.color + '-king.svg';
+    }
+}
+
 function startingSetup() {
     let pieces = {};
     let pieceCollection = {}
@@ -522,59 +564,35 @@ function startingSetup() {
         for(let column of ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']) {
             let thisPiece = color + column + 'Pawn';
             let row = color === 'white' ? '2' : '7';
-            pieces[thisPiece] = {
-                name: thisPiece,
-                piece: 'pawn',
-                color: color,
-                startingPosition: col.toString() + row
-            }
+            pieceCollection[thisPiece] = new Pawn(thisPiece, color, col.toString() + row);
+            pieceCollection[thisPiece].place();
             col++;
         }
         for(let i of [2, 7]) {
             let thisPiece = color + i + 'Knight';
             let row = color === 'white' ? '1' : '8';
-            pieces[thisPiece] = {
-                name: thisPiece,
-                piece: 'knight',
-                color: color,
-                startingPosition: i.toString() + row
-            }
+            pieceCollection[thisPiece] = new Knight(thisPiece, color, i.toString() + row);
+            pieceCollection[thisPiece].place();
         }
         for(let i of [3, 6]) {
             let thisPiece = color + i + 'Bishop';
             let row = color === 'white' ? '1' : '8';
-            pieces[thisPiece] = {
-                name: thisPiece,
-                piece: 'bishop',
-                color: color,
-                startingPosition: i.toString() + row
-            }
+            pieceCollection[thisPiece] = new Bishop(thisPiece, color, i.toString() + row);
+            pieceCollection[thisPiece].place();
         }
         for(let i of [1, 8]) {
             let thisPiece = color + i + 'Rook';
             let row = color === 'white' ? '1' : '8';
-            pieces[thisPiece] = {
-                name: thisPiece,
-                piece: 'rook',
-                color: color,
-                startingPosition: i.toString() + row
-            }
+            pieceCollection[thisPiece] = new Rook(thisPiece, color, i.toString() + row);
+            pieceCollection[thisPiece].place();
         }
         let thisPiece = color + 'Queen';
         let row = color === 'white' ? '1' : '8';
-        pieces[thisPiece] = {
-            name: thisPiece,
-            piece: 'queen',
-            color: color,
-            startingPosition: '4' + row
-        }
+        pieceCollection[thisPiece] = new Queen(thisPiece, color, '4' + row);
+        pieceCollection[thisPiece].place();
         thisPiece = color + 'King';
-        pieces[thisPiece] = {
-            name: thisPiece,
-            piece: 'king',
-            color: color,
-            startingPosition: '5' + row
-        }
+        pieceCollection[thisPiece] = new King(thisPiece, color, '5' + row);
+        pieceCollection[thisPiece].place();
     }
     for(let p in pieces) {
         let newPiece = new Piece(pieces[p].name, pieces[p].piece, pieces[p].color, pieces[p].startingPosition);
