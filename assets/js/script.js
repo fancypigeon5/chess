@@ -926,6 +926,7 @@ function checkEndConditions() {
 }
 
 function promotePawn(event) {
+    movesSinceCapture = 0;
     let promote = event.target.id;
     let pawn = event.target.name;
     for (let i = 0; i < document.getElementsByClassName('promotionimage').length; i++) {
