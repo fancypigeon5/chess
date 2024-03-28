@@ -117,6 +117,7 @@ class Piece {
         parentSquare.removeChild(piece);
     }
     isCaptured() {
+        movesSinceCapture = 0;
         this.remove();
         capturedPieces[this.pieceName] = piecesOnBoard[this.pieceName];
         delete piecesOnBoard[this.pieceName];
@@ -618,6 +619,22 @@ function startingSetup() {
     return (pieceCollection)
 }
 
+function boardState() {
+    let board = [];
+    for (let r = 1; r <= 8; r++) {
+        for(let f = 1; f <= 8; f++) {
+            let square = document.getElementById(f.toString() + r.toString());
+            if (square.children.length !== 0) {
+                let pieceName = square.children[0].id;
+                board.push(piecesOnBoard[pieceName].color + piecesOnBoard[pieceName].piece);
+            } else {
+                board.push('');
+            }
+        }
+    }
+    return board;
+}
+
 function isCheck(color, square) {
     let inCheck = false;
     let file = Number(square.charAt(0));
@@ -802,10 +819,22 @@ function isCheck(color, square) {
     return(inCheck);
 }
 
+function searchArray(arr1, arr2) {
+    let contains = false;
+    for (let i of arr1) {
+        if (i.toString() === arr2.toString()) {
+            contains = true;
+        }
+    }
+    
+    return contains;
+}
+
 function moveToClicked(event) {
     let clicked;
     let piece;
     let enPassantable = false;
+    movesSinceCapture++;
     if (event.target.classList.contains('square')) {
         clicked = event.target.id;
         piece = event.target.getAttribute('legal-piece');
@@ -818,7 +847,14 @@ function moveToClicked(event) {
         enPassantable = true;
 
     }
-    
+    let board = boardState();
+    if (searchArray(previousPositions, board)) {
+        repeatedPositions.push(board);
+        previousPositions.push(board);
+    } else {
+        previousPositions.push(board);
+        
+    }
     piecesOnBoard[piece].move(clicked);
     
     if (piecesOnBoard[piece].piece === 'pawn') {
@@ -850,6 +886,10 @@ function moveToClicked(event) {
         document.getElementsByClassName('check')[0].classList.remove('check');
     }
     turn = turn === 'white' ? 'black' : 'white';
+
+    if (turn === 'white') {
+        moveCount++;
+    }
     
     if (isCheck(turn, document.getElementById(turn + 'King').parentNode.id)) {
         document.getElementById(turn + 'King').parentNode.classList.add('check');
@@ -875,6 +915,13 @@ function checkEndConditions() {
         } else {
             alert('Stalemate!!!!');
         }
+    }
+    if (movesSinceCapture >= 100) {
+        alert('50 moves since last capture');
+    }
+
+    if (searchArray(repeatedPositions, boardState())) {
+        alert('3 time repetition');
     }
 }
 
@@ -945,8 +992,12 @@ function addListeners() {
 
 createBoard();
 let piecesOnBoard = startingSetup();
+let previousPositions = [];
+let repeatedPositions = [];
 let capturedPieces = {};
 let enPassant = '';
+let moveCount = 1;
+let movesSinceCapture = 0;
 let turn = 'white';
 console.log(piecesOnBoard);
 addListeners();
