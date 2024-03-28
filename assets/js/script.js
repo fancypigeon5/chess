@@ -874,7 +874,7 @@ function moveToClicked(event) {
                 promoteField.appendChild(possiblePiece);
             }
             promoteDiv.appendChild(promoteField);
-            document.body.appendChild(promoteDiv);
+            document.getElementById('board').appendChild(promoteDiv);
         }
     } 
     if (!enPassantable) {
