@@ -8,15 +8,86 @@ body {
     position: relative;
 }
 
-#board {
-    margin-top: 50px;
+.background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-image: linear-gradient(to left, #6C3A5C, #BEA7E5);
+    z-index: -1;
+}
+
+#player1, #player2 {
+    position: absolute;
+    top: 10%;
+    width: 20%;
+    min-height: 40%;
+    padding: 1em;
+    background-color: rgba(233, 233, 233, 0.25);
+    border-radius: 1em;
+    backdrop-filter: blur(1em);
+    box-shadow: 0px 0px 5px rgba(78, 78, 78, 0.63);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+#player1 {
+    left: 2.5%;
+}
+
+#player2 {
+    right: 2.5%;
+}
+
+#clock1, #clock2 {
+    border-radius: 1em;
+    padding: 1em;
+
+}
+
+#clock1 {
+    background-color: white;
+    color: black;
+}
+
+#clock2 {
+    background-color: black;
+    color: white;
+}
+
+#pieces1, #pieces2 {
+    min-height: 15vh;
+}
+
+.board-container {
+    margin-top: 10vh;
+    margin-bottom: 10vh;
     margin-left: auto;
     margin-right: auto;
-    width: 90%;
+    padding-top: 2em;
+    width: 50%;
+    height: 150vh;
+    border-radius: 4em;
+    background-image: linear-gradient(to right, #21A179, #81AE9D);
+    /* background-color: rgb(184, 170, 140); */
+    box-shadow: 0px 0px 30px rgb(78, 78, 78);
+    z-index: 100;
+}
+
+#board {
+    margin-top: 3em;
+    margin-left: auto;
+    margin-right: auto;
+    width: 70%;
     aspect-ratio: 1/1;
-    border: 2px solid black;
+    border-radius: 1em;
+    box-shadow: 0px 0px 30px rgb(78, 78, 78);
     display: flex;
     flex-wrap: wrap;
+    overflow: hidden;
 }
 
 #promote {
@@ -95,10 +166,4 @@ h1.white {
 h1.black {
     background-color: transparent;
     color: black;
-}
-
-@media screen and (min-width: 768px) {
-    #board {
-        width: 40%;
-    }
 }
