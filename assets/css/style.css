@@ -71,8 +71,8 @@ body {
     width: 50%;
     height: 150vh;
     border-radius: 4em;
-    background-image: linear-gradient(to right, #21A179, #81AE9D);
-    /* background-color: rgb(184, 170, 140); */
+    /* background-image: linear-gradient(to right, #21A179, #81AE9D); */
+    background-color: #21A179;
     box-shadow: 0px 0px 30px rgb(78, 78, 78);
     z-index: 100;
 }
@@ -91,7 +91,7 @@ body {
     overflow: hidden;
 }
 
-#promote {
+#overlay {
     position: absolute;
     top: 0;
     left: 0;
@@ -104,7 +104,7 @@ body {
     z-index: 10;
 }
 
-#promotefield {
+#messagefield {
     display: flex;
     flex-direction: row;
     padding: 1em;

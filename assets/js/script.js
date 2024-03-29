@@ -835,6 +835,9 @@ function moveToClicked(event) {
     let piece;
     let enPassantable = false;
     movesSinceCapture++;
+    if (!interval) {
+        timer();
+    }
     if (event.target.classList.contains('square')) {
         clicked = event.target.id;
         piece = event.target.getAttribute('legal-piece');
@@ -859,10 +862,10 @@ function moveToClicked(event) {
     
     if (piecesOnBoard[piece].piece === 'pawn') {
         if (clicked.charAt(1) === '8' || clicked.charAt(1) === '1') {
-            let promoteDiv = document.createElement('div');
-            let promoteField = document.createElement('div');
-            promoteDiv.setAttribute('id', 'promote');
-            promoteField.setAttribute('id', 'promotefield')
+            let overlayDiv = document.createElement('div');
+            let messageField = document.createElement('div');
+            overlayDiv.setAttribute('id', 'overlay');
+            messageField.setAttribute('id', 'messagefield');
             for (let i of ['knight', 'bishop', 'rook', 'queen']) {
                 let possiblePiece = document.createElement('img');
                 possiblePiece.setAttribute('class', 'promotionimage');
@@ -871,10 +874,10 @@ function moveToClicked(event) {
                 possiblePiece.setAttribute('src', 'assets/images/' + turn + '-' + i + '.svg');
                 possiblePiece.setAttribute('alt', i);
                 possiblePiece.addEventListener('click', promotePawn);
-                promoteField.appendChild(possiblePiece);
+                messageField.appendChild(possiblePiece);
             }
-            promoteDiv.appendChild(promoteField);
-            document.getElementById('board').appendChild(promoteDiv);
+            overlayDiv.appendChild(messageField);
+            document.getElementById('board').appendChild(overlayDiv);
         }
     } 
     if (!enPassantable) {
@@ -889,6 +892,15 @@ function moveToClicked(event) {
 
     if (turn === 'white') {
         moveCount++;
+        turn = 'black';
+        blackSecondsLeft = blackSecondsLeft + 1 + increment;
+        countdown();
+        turn = 'white';
+    } else {
+        turn = 'white';
+        whiteSecondsLeft = whiteSecondsLeft + 1 + increment;
+        countdown();
+        turn = 'black';
     }
     
     if (isCheck(turn, document.getElementById(turn + 'King').parentNode.id)) {
@@ -911,17 +923,17 @@ function checkEndConditions() {
     if (!movesLeft) {
         console.log('end')
         if (isCheck(turn, document.getElementById(turn + 'King').parentNode.id)) {
-            alert('Checkmate!!!!');
+            gameEnding('Checkmate!!!!');
         } else {
-            alert('Stalemate!!!!');
+            gameEnding('Stalemate!!!!');
         }
     }
     if (movesSinceCapture >= 100) {
-        alert('50 moves since last capture');
+        gameEnding('50 moves since last capture');
     }
 
     if (searchArray(repeatedPositions, boardState())) {
-        alert('3 time repetition');
+        gameEnding('3 time repetition');
     }
 }
 
@@ -940,6 +952,19 @@ function promotePawn(event) {
     if (isCheck(turn, document.getElementById(turn + 'King').parentNode.id)) {
         document.getElementById(turn + 'King').parentNode.classList.add('check');
     }
+}
+
+function gameEnding(message) {
+    removeListeners();
+    clearInterval(intervalID);
+    let overlayDiv = document.createElement('div');
+    let messageField = document.createElement('div');
+    overlayDiv.setAttribute('id', 'overlay');
+    messageField.setAttribute('id', 'messagefield');
+    messageField.innerHTML = `<h1>${message}</h1>`;
+    overlayDiv.appendChild(messageField);
+    document.getElementById('board').appendChild(overlayDiv);
+    overlayDiv.addEventListener('click', () => {document.getElementById('messagefield').remove()})
 }
 
 function highlight(event) {
@@ -991,6 +1016,41 @@ function addListeners() {
     }
 }
 
+function startingtimes() {
+    turn = 'white';
+    countdown();
+    turn = 'black';
+    countdown();
+    turn = 'white';
+}
+
+function countdown () {
+    let minutes = document.getElementById(turn + '-minutes');
+    let seconds = document.getElementById(turn + '-seconds');
+    if (turn === 'white') {
+        minutes.innerHTML = Math.floor(whiteSecondsLeft / 60).toString().padStart(2, '0');
+        seconds.innerHTML = (whiteSecondsLeft % 60).toString().padStart(2, '0');
+        if (whiteSecondsLeft === 0) {
+            gameEnding('White ran out of time');
+        }
+        whiteSecondsLeft--;
+        
+    } else {
+        minutes.innerHTML = Math.floor(blackSecondsLeft / 60).toString().padStart(2, '0');
+        seconds.innerHTML = (blackSecondsLeft % 60).toString().padStart(2, '0');
+        if (blackSecondsLeft === 0) {
+            gameEnding('Black ran out of time');
+        }
+        blackSecondsLeft--;
+    }
+}
+
+function timer() {
+    intervalID = setInterval(countdown, 1000);
+    interval = true;
+}
+
+
 createBoard();
 let piecesOnBoard = startingSetup();
 let previousPositions = [];
@@ -999,6 +1059,12 @@ let capturedPieces = {};
 let enPassant = '';
 let moveCount = 1;
 let movesSinceCapture = 0;
+let whiteSecondsLeft = 600;
+let blackSecondsLeft = 600;
+let increment = 5;
 let turn = 'white';
+let intervalID;
+let interval = false;
+startingtimes();
 console.log(piecesOnBoard);
 addListeners();
