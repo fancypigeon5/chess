@@ -1066,6 +1066,83 @@ function flipBoard() {
     }
 }
 
+function numberInputs() {
+    let fields = document.getElementsByClassName('num-input');
+    console.log(fields);
+    console.log(fields.length);
+    for (let i = 0; i < fields.length; i++) {
+        fields[i].getElementsByClassName('num-up')[0].addEventListener('click', numUp);
+        fields[i].getElementsByClassName('num-down')[0].addEventListener('click', numDown);
+    }
+    console.log('test')
+}
+
+function numUp(event) {
+    let num = event.target.parentNode.getElementsByClassName('number')[0];
+    num.value = parseInt(num.value) + 1;
+}
+
+function numDown(event) {
+    let num = event.target.parentNode.getElementsByClassName('number')[0];
+    if (parseInt(num.value) > 0) {
+        num.value = parseInt(num.value) - 1;
+    }
+}
+
+function applySettings(event) {
+    event.preventDefault();
+    let timeControl = parseInt(document.getElementById('time-minutes').value) * 60;
+    increment = parseInt(document.getElementById('increment').value);
+    whiteSecondsLeft = timeControl;
+    blackSecondsLeft = timeControl;
+    if (document.getElementById('flip').checked) {
+        flip = true;
+    }
+    document.getElementById('setting-container').remove();
+    startingtimes();
+    addListeners();
+}
+
+function settings() {
+    let overlay = document.createElement('div');
+    overlay.setAttribute('class', 'overlay');
+    overlay.setAttribute('id', 'setting-container')
+    overlay.innerHTML = 
+        `<div id="settings">
+            <h1>Game Settings</h1>
+            <form action="post" id="settings-form">
+                <label for="player1-name">Player 1 Name:</label>
+                <input type="text" name="player1" id="player1-name" value="Player 1">
+                <label for="player2-name">Player 2 Name:</label>
+                <input type="text" name="player2" id="player2-name" value="Player 2">
+                <div class="input-container">
+                    <label for="time-minutes">Time control (minutes)</label>
+                    <div class="num-input">
+                        <p class="num-up">^</p>
+                        <input type="number" name="minutes" id="time-minutes" value="10" class="number">
+                        <p class="num-down">^</p>
+                    </div>
+                </div>
+                <div class="input-container">
+                    <label for="increment">Increment</label>
+                    <div class="num-input">
+                        <p class="num-up">^</p>
+                        <input type="number" name="increment" id="increment" value="0" class="number">
+                        <p class="num-down">^</p>
+                    </div>
+                </div>
+                <div class="input-container">
+                    <label for="flip">Flip board</label>
+                    <input type="checkbox" name="flip" id="flip">
+                </div>
+                <input type="button" value="Start Game" id="start-game">
+            </form>
+        </div>`;
+    document.body.appendChild(overlay);
+    numberInputs();
+    document.getElementById('start-game').addEventListener('click', applySettings)
+}
+
 
 createBoard();
 let piecesOnBoard = startingSetup();
@@ -1075,13 +1152,16 @@ let capturedPieces = {};
 let enPassant = '';
 let moveCount = 1;
 let movesSinceCapture = 0;
-let whiteSecondsLeft = 600;
-let blackSecondsLeft = 600;
-let increment = 5;
 let turn = 'white';
 let intervalID;
 let interval = false;
-let flip = true;
-startingtimes();
+
+let whiteSecondsLeft;
+let blackSecondsLeft;
+let increment;
+let flip = false;
+
+document.addEventListener("DOMContentLoaded", settings);
 console.log(piecesOnBoard);
-addListeners();
+
+

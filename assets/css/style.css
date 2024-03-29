@@ -8,6 +8,105 @@ body {
     position: relative;
 }
 
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+
+#settings {
+    display: flex;
+    padding: 1em;
+    background-color: antiquewhite;
+    border-radius: 3em;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+#settings h1 {
+    margin: 1em;
+}
+
+#settings-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+input[type='text'] {
+    margin-bottom: 1em;
+    padding: .3em;
+    border: 2px solid black;
+    border-radius: 1em;
+    text-align: center;
+    background-color: transparent;
+}
+
+label {
+    font-weight: 700;
+    font-size: large;
+}
+
+.num-input {
+    width: 1.5em;
+    margin-left: 1em;
+    border: 2px solid black;
+    border-radius: 1em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.num-down {
+    cursor: pointer;
+    transform: rotateX(180deg);
+    width: 100%;
+    text-align: center;
+}
+
+.num-up {
+    cursor: pointer;
+    width: 100%;
+    text-align: center;
+}
+
+/* following code from https://www.w3schools.com/howto/howto_css_hide_arrow_number.asp */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type='number'] {
+    -moz-appearance: textfield;
+    width: 2em;
+    text-align: center;
+    background-color: transparent;
+    border: none;
+}
+
+input[type='number']:focus {
+    outline: none;
+}
+
+.input-container {
+    margin-bottom: .5em;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .background {
     position: fixed;
     top: 0;
