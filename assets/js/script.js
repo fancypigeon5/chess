@@ -856,10 +856,29 @@ function moveToClicked(event) {
         previousPositions.push(board);
     } else {
         previousPositions.push(board);
-        
     }
     piecesOnBoard[piece].move(clicked);
+    promotionOverlay(piece, clicked);
+    if (!enPassantable) {
+        enPassant = '';
+    }
+    removeListeners();
+    removeHighlight();
+    if (document.getElementsByClassName('check').length !== 0) {
+        document.getElementsByClassName('check')[0].classList.remove('check');
+    }
+    turn = turn === 'white' ? 'black' : 'white';
+    flipBoard();
+    addIncrement();
     
+    if (isCheck(turn, document.getElementById(turn + 'King').parentNode.id)) {
+        document.getElementById(turn + 'King').parentNode.classList.add('check');
+    }
+    checkEndConditions();
+    addListeners();
+}
+
+function promotionOverlay(piece, clicked) {
     if (piecesOnBoard[piece].piece === 'pawn') {
         if (clicked.charAt(1) === '8' || clicked.charAt(1) === '1') {
             let overlayDiv = document.createElement('div');
@@ -879,17 +898,10 @@ function moveToClicked(event) {
             overlayDiv.appendChild(messageField);
             document.getElementById('board').appendChild(overlayDiv);
         }
-    } 
-    if (!enPassantable) {
-        enPassant = '';
     }
-    removeListeners();
-    removeHighlight();
-    if (document.getElementsByClassName('check').length !== 0) {
-        document.getElementsByClassName('check')[0].classList.remove('check');
-    }
-    turn = turn === 'white' ? 'black' : 'white';
+}
 
+function addIncrement() {
     if (turn === 'white') {
         moveCount++;
         turn = 'black';
@@ -902,12 +914,6 @@ function moveToClicked(event) {
         countdown();
         turn = 'black';
     }
-    
-    if (isCheck(turn, document.getElementById(turn + 'King').parentNode.id)) {
-        document.getElementById(turn + 'King').parentNode.classList.add('check');
-    }
-    checkEndConditions();
-    addListeners();
 }
 
 function checkEndConditions() {
@@ -1050,6 +1056,16 @@ function timer() {
     interval = true;
 }
 
+function flipBoard() {
+    if (flip) {
+        if (turn === 'black') {
+            document.getElementById('board').classList.add('reverse')
+        } else {
+            document.getElementById('board').classList.remove('reverse')
+        }
+    }
+}
+
 
 createBoard();
 let piecesOnBoard = startingSetup();
@@ -1065,6 +1081,7 @@ let increment = 5;
 let turn = 'white';
 let intervalID;
 let interval = false;
+let flip = true;
 startingtimes();
 console.log(piecesOnBoard);
 addListeners();
