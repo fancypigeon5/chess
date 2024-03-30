@@ -1091,7 +1091,11 @@ function numDown(event) {
 
 function applySettings(event) {
     event.preventDefault();
-    let timeControl = parseInt(document.getElementById('time-minutes').value) * 60;
+    timeControl = parseInt(document.getElementById('time-minutes').value) * 60;
+    let player1Name = document.getElementById('player1-name').value;
+    let player2Name = document.getElementById('player2-name').value;
+    document.getElementById('name1').innerHTML = player1Name;
+    document.getElementById('name2').innerHTML = player2Name;
     increment = parseInt(document.getElementById('increment').value);
     whiteSecondsLeft = timeControl;
     blackSecondsLeft = timeControl;
@@ -1138,9 +1142,33 @@ function settings() {
                 <input type="button" value="Start Game" id="start-game">
             </form>
         </div>`;
-    document.body.appendChild(overlay);
+    document.getElementById('main-content').appendChild(overlay);
     numberInputs();
     document.getElementById('start-game').addEventListener('click', applySettings)
+}
+
+function reset() {
+    let square = document.getElementsByClassName('square');
+    console.log(square.length);
+    for (let i = 0; i < square.length; i++) {
+        if (square[i].children.length !== 0) {
+            square[i].removeChild(square[i].children[0]);
+        }
+    }
+    clearInterval(intervalID);
+    piecesOnBoard = startingSetup();
+    previousPositions = [];
+    repeatedPositions = [];
+    capturedPieces = {};
+    enPassant = '';
+    moveCount = 1;
+    movesSinceCapture = 0;
+    turn = 'white';
+    interval = false;
+    whiteSecondsLeft = timeControl;
+    blackSecondsLeft = timeControl;
+    startingtimes();
+    addListeners();
 }
 
 
@@ -1155,13 +1183,15 @@ let movesSinceCapture = 0;
 let turn = 'white';
 let intervalID;
 let interval = false;
-
+let timeControl;
 let whiteSecondsLeft;
 let blackSecondsLeft;
 let increment;
 let flip = false;
 
 document.addEventListener("DOMContentLoaded", settings);
+document.getElementById('nav-settings').addEventListener('click', settings);
+document.getElementById('nav-reset').addEventListener('click', reset);
 console.log(piecesOnBoard);
 
 
