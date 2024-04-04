@@ -9,36 +9,44 @@
 <body>
     <header>
         <h1>Chess</h1>
+
+        <input type="checkbox" id="nav-toggle" name="nav-toggle">
+        <label for="nav-toggle" class="nav-toggle-label">
+            <i class="fa-solid fa-bars"></i>
+        </label>
+
         <nav>
             <p id="nav-reset">reset</p>
             <p id="nav-settings">settings</p>
         </nav>
     </header>
     <main id="main-content">
-        <div class="background">
-            <div id="player1">
-                <div id="clock1">
-                    <span id="white-minutes">10</span>
-                    <span>:</span>
-                    <span id="white-seconds">00</span>
-                </div>
-                <div><h1 id="name1"> Player 1 </h1></div>
-                <div id="pieces1"></div>
-            </div>
-            <div id="player2">
-                <div id="clock2">
-                    <span id="black-minutes">10</span>
-                    <span>:</span>
-                    <span id="black-seconds">00</span>
-                </div>
-                <div><h1 id="name2"> Player 2 </h1></div>
-                <div id="pieces2"></div>
-            </div>
-        </div>
+        <div class="background"></div>
         <div class="board-container">
             <div id="board"></div>
+            <div id="players">
+                <div id="player1">
+                    <div id="clock1">
+                        <span id="white-minutes">10</span>
+                        <span>:</span>
+                        <span id="white-seconds">00</span>
+                    </div>
+                    <div><h1 id="name1"> Player 1 </h1></div>
+                    <div id="pieces1"></div>
+                </div>
+                <div id="player2">
+                    <div id="clock2">
+                        <span id="black-minutes">10</span>
+                        <span>:</span>
+                        <span id="black-seconds">00</span>
+                    </div>
+                    <div><h1 id="name2"> Player 2 </h1></div>
+                    <div id="pieces2"></div>
+                </div>
+            </div>
         </div>
     </main>
     <script src="assets/js/script.js"></script>
+    <script src="https://kit.fontawesome.com/05b670c92e.js" crossorigin="anonymous"></script>
 </body>
 </html>

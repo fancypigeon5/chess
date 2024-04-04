@@ -25,8 +25,16 @@ header {
 }
 
 nav {
+    position: absolute;
+    left: 0;
+    top: 100%;
+    width: 100vw;
+    height: 0;
+    padding: 0 0;
+    overflow: hidden;
+    background-image: linear-gradient(to left, #8e4d7a, #cebbed);
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-between;
     align-items: center;
     gap: 2em;
@@ -35,6 +43,19 @@ nav {
 nav p {
     font-size: x-large;
     cursor: pointer;
+}
+
+.nav-toggle-label {
+    font-size: 2rem;
+}
+
+#nav-toggle:checked~nav {
+    height: 20vh;
+    padding: 1em 0;
+}
+
+#nav-toggle {
+    display: none;
 }
 
 .overlay {
@@ -53,6 +74,7 @@ nav p {
 #settings {
     display: flex;
     padding: 1em;
+    margin: 1em;
     background-color: antiquewhite;
     border-radius: 3em;
     flex-direction: column;
@@ -62,6 +84,7 @@ nav p {
 
 #settings h1 {
     margin: 1em;
+    text-align: center;
 }
 
 #settings-form {
@@ -146,11 +169,15 @@ input[type='number']:focus {
     z-index: -1;
 }
 
+#players {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
 #player1, #player2 {
-    position: absolute;
-    top: 20%;
-    width: 20%;
-    min-height: 40%;
+    margin: 1em .1em;
     padding: 1em;
     background-color: rgba(233, 233, 233, 0.25);
     border-radius: 1em;
@@ -162,6 +189,10 @@ input[type='number']:focus {
     align-items: center;
 }
 
+#name1, #name2 {
+    font-size: medium;
+}
+
 #player1 {
     left: 2.5%;
 }
@@ -171,7 +202,7 @@ input[type='number']:focus {
 }
 
 #clock1, #clock2 {
-    border-radius: 1em;
+    border-radius: .3em;
     padding: 1em;
 
 }
@@ -191,28 +222,26 @@ input[type='number']:focus {
 }
 
 .board-container {
+    position: static;
     margin-top: 10vh;
     margin-bottom: 10vh;
     margin-left: auto;
     margin-right: auto;
-    padding-top: 2em;
-    width: 50%;
-    height: 150vh;
-    border-radius: 4em;
+    padding-top: 0;
+    width: 95%;
+    border-radius: .5em;
     /* background-image: linear-gradient(to right, #21A179, #81AE9D); */
-    background-color: #21A179;
-    box-shadow: 0px 0px 30px rgb(78, 78, 78);
     z-index: 100;
 }
 
 #board {
     position: relative;
-    margin-top: 3em;
+    margin-top: 0;
     margin-left: auto;
     margin-right: auto;
-    width: 70%;
+    width: 100%;
     aspect-ratio: 1/1;
-    border-radius: 1em;
+    border-radius: .4em;
     box-shadow: 0px 0px 30px rgb(78, 78, 78);
     display: flex;
     flex-direction: row;
@@ -301,4 +330,64 @@ h1.white {
 h1.black {
     background-color: transparent;
     color: black;
+}
+
+@media screen and (min-width: 768px) {
+    
+    nav {
+        position: relative;
+        width: fit-content;
+        height: auto;
+        top: 0;
+        background-color: transparent;
+        background-image: none;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        gap: 2em;
+    }
+
+    .nav-toggle-label {
+        display: none;
+    }
+
+    #player1, #player2 {
+        position: fixed;
+        top: 20%;
+        width: 20%;
+        min-height: 40%;
+        padding: 1em;
+        background-color: rgba(233, 233, 233, 0.25);
+        border-radius: 1em;
+        backdrop-filter: blur(1em);
+        box-shadow: 0px 0px 5px rgba(78, 78, 78, 0.63);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    #player1 {
+        left: 2.5%;
+    }
+    
+    #player2 {
+        right: 2.5%;
+    }
+
+    .board-container {
+        padding: 2em;
+        width: 50%;
+        background-color: #21A179;
+        box-shadow: 0px 0px 30px rgb(78, 78, 78);
+    }
+    
+    #board {
+        width: 70%;
+    }
+
+    #name1, #name2 {
+        font-size: x-large;
+    }
 }
