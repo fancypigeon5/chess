@@ -952,7 +952,7 @@ function promotePawn(event) {
             document.getElementsByClassName('promotionimage')[i].removeEventListener('click', promotePawn);
         }
     }
-    document.getElementById('promote').remove();
+    document.getElementById('overlay').remove();
     piecesOnBoard[pawn].promote(promote);
     delete piecesOnBoard[pawn];
     if (isCheck(turn, document.getElementById(turn + 'King').parentNode.id)) {
