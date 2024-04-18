@@ -109,7 +109,6 @@ label {
 }
 
 .num-input {
-    width: 1.5em;
     margin-left: 1em;
     border: 2px solid black;
     border-radius: 1em;
@@ -121,15 +120,17 @@ label {
 
 .num-down {
     cursor: pointer;
-    transform: rotateX(180deg);
-    width: 100%;
+    padding: .1em .5em;
+    transform: rotateZ(180deg);
     text-align: center;
+    font-size: large;
 }
 
 .num-up {
     cursor: pointer;
-    width: 100%;
     text-align: center;
+    font-size: large;
+    padding: .1em .5em;
 }
 
 /* following code from https://www.w3schools.com/howto/howto_css_hide_arrow_number.asp */
@@ -151,12 +152,33 @@ input[type='number']:focus {
     outline: none;
 }
 
+input[type='checkbox'] {
+    margin: 0 1em;
+}
+
 .input-container {
-    margin-bottom: .5em;
+    width: 80%;
+    margin: .5em 0;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+}
+
+#start-game {
+    margin: .5em;
+    cursor: pointer;
+    font-size: x-large;
+    font-weight: 700;
+    color: black;
+    padding: .3em;
+    border-radius: 2em;
+    background-image: linear-gradient(to left, #6c3a5ccc, #bea7e5cc);
+}
+
+#start-game:hover {
+    background-image: linear-gradient(to left, #6c3a5c6e, #bea7e56e);
+    border: solid 2px rgba(0, 0, 0, 0.5);
 }
 
 .background {
@@ -350,6 +372,18 @@ h1.black {
 
     .nav-toggle-label {
         display: none;
+    }
+
+    .num-input {
+        flex-direction: row;
+    }
+    
+    .num-down {
+        transform: rotateZ(90deg);
+    }
+    
+    .num-up {
+        transform: rotateZ(-90deg);
     }
 
     #player1, #player2 {
