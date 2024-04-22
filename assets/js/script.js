@@ -1099,9 +1099,7 @@ function applySettings(event) {
     increment = parseInt(document.getElementById('increment').value);
     whiteSecondsLeft = timeControl;
     blackSecondsLeft = timeControl;
-    if (document.getElementById('flip').checked) {
-        flip = true;
-    }
+    flip = document.getElementById('flip').checked;
     document.getElementById('setting-container').remove();
     startingtimes();
     addListeners();

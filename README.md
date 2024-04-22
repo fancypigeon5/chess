@@ -1,39 +1,161 @@
-![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
+# Homesquare chess
 
-Welcome,
+Homesquare Chess is designed to be an object-oriented JavaScript chess board. The project's goal is to establish an online platform where users can enjoy local chess games with friends and family. Additionally, it seeks to apply various fundamental JavaScript concepts through clear object-oriented coding to deliver a fully functional chessboard. This board will incorporate all essential chess rules, including piece movement, checks, draws, checkmates, and more.
 
-This is the Code Institute student template for Codeanywhere. If you are using Gitpod then you need [this template](https://github.com/Code-Institute-Org/gitpod-full-template) instead.  We have preinstalled all of the tools you need to get started. It's perfectly ok to use this template as the basis for your project submissions.
+## Features
 
-You can safely delete this README.md file, or change it for your own project. Please do read it at least once, though! It contains some important information about Codeanywhere and the extensions we use. Some of this information has been updated since the video content was created. The last update to this file was: **August 30th, 2023**
+### Existing features
 
-## Codeanywhere Reminders
+- __Header__
 
-To run a frontend (HTML, CSS, Javascript only) application in Codeanywhere, in the terminal, type:
+    - At the top of the page we find the header containing a logo and a nav section that lets players reset the board or access the settings.
 
-`python3 -m http.server`
+    ![Header screenshot](assets/images/readme-images/header.png)
 
-A button should appear to click: _Open Preview_ or _Open Browser_.
+- __Player info__
 
-To run a frontend (HTML, CSS, Javascript only) application in Codeanywhere with no-cache, you can use this alias for `python3 -m http.server`.
+    - These sections display the players names and a timer to display the time they have left.
 
-`http_server`
+    ![Player 1 info](assets/images/readme-images/player1.png)
+    ![Player 2 info](assets/images/readme-images/player2.png)
 
-To run a backend Python file, type `python3 app.py`, if your Python file is named `app.py` of course.
+- __Settings section__
 
-A button should appear to click: _Open Preview_ or _Open Browser_.
+    - This section comes up as an overlay over the rest of the site.
 
-In Codeanywhere you have superuser security privileges by default. Therefore you do not need to use the `sudo` (superuser do) command in the bash terminal in any of the lessons.
+    - This section lets the user change some parts of the User experience and/or gameplay: 
 
-To log into the Heroku toolbelt CLI:
+        - The names displayed.
 
-1. Log in to your Heroku account and go to _Account Settings_ in the menu under your avatar.
-2. Scroll down to the _API Key_ and click _Reveal_
-3. Copy the key
-4. In Codeanywhere, from the terminal, run `heroku_config`
-5. Paste in your API key when asked
+        - The amount of time each player is given.
 
-You can now use the `heroku` CLI program - try running `heroku apps` to confirm it works. This API key is unique and private to you so do not share it. If you accidentally make it public then you can create a new one with _Regenerate API Key_.
+        - The amount of extra seconds players earn with each move.
 
----
+        - Whether or not the board should flip after each move.
+    
+    - After clicking the start game button these settings will be applied
 
-Happy coding!
+    ![settings overlay](assets/images/readme-images/setting.png)
+
+- __The board area__
+
+    - This is the section where the chess board will be displayed and the game will be played.
+
+    - The two players wil be able to take alternating turns making their moves.
+
+    - When clicked a piece will display all the possible legal moves it can make.
+
+    ![The board section](assets/images/readme-images/board.png)
+
+- __Promotion overlay__
+
+    - This section is an overlay that appears when a pawn makes it to the other side of the board.
+
+    - This section presents the player with the possible pieces the pawn can turn into when clicked.
+
+    ![The promotion overlay](assets/images/readme-images/promotion.png)
+
+- __End of game overlay__
+
+    - These overlays pop up whenever an end of game condition is met.
+
+    - Win conditions are: 
+
+        - When a player is in check and there are no ways of escaping it.
+        ![Checkmate overlay](assets/images/readme-images/checkmate.png)
+
+        - When a player runs out of time.
+        ![Out of time overlay](assets/images/readme-images/out-of-time.png)
+
+    - Draw conditions are:
+
+        - When the same position is reached 3 times this game.
+        ![3 times repetition](assets/images/readme-images/3-time-repetition.png)
+
+        - When there have been 50 full moves without any captures.
+        ![50 move rule](assets/images/readme-images/50-move-rule.png)
+
+        - When on a player's turn, they have no legal moves left but are not currently in check.
+        ![Stalemate](assets/images/readme-images/stalemate.png)
+    
+
+### Features left to implement
+
+- Connecting to a chessbot api to be able to play against the computer.
+
+- Captured pieces appear in the player info under their name.
+
+- Moves get written down in chess notation below the board. 
+
+## UX Design
+
+___
+
+### Strategy
+
+
+
+### Scope
+
+
+
+### structure
+
+
+
+### Skeleton
+
+
+
+### surface
+
+#### Colors
+
+
+
+#### typography
+
+
+
+## Testing
+
+### Tests
+
+
+
+### Validators
+
+
+
+### Performance
+
+
+
+### Compatibility
+
+
+
+## Deployment
+
+### How the page is deployed
+
+- In the GitHub repository, navigate to the Settings tab, then choose Pages from the left hand menu 
+- From the source section drop-down menu, select the Master Branch
+- Once the master branch has been selected, the page will be automatically refreshed with a detailed ribbon display to indicate the successful deployment
+- Any changes pushed to the master branch will take effect on the live project
+
+### How to clone the repository
+
+- Go to the repository on GitHub 
+- Click the "Code" button to the right of the screen, click HTTPs and copy the link there
+- Open a GitBash terminal and navigate to the directory where you want to locate the clone
+- On the command line, type "git clone" then paste in the copied url and press the Enter key to begin the clone process
+
+## Credits
+
+### Content
+
+
+
+### Media
+
