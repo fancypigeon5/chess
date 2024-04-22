@@ -376,15 +376,15 @@ h1.black {
     }
 
     .num-input {
-        flex-direction: row;
+        flex-direction: row-reverse;
     }
     
     .num-down {
-        transform: rotateZ(90deg);
+        transform: rotateZ(-90deg);
     }
     
     .num-up {
-        transform: rotateZ(-90deg);
+        transform: rotateZ(90deg);
     }
 
     #player1, #player2 {

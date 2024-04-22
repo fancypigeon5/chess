@@ -121,11 +121,17 @@ ___
 
 ### Tests
 
-
+- __All the tests can be found in [this file](assets/testing/testing.md).__
 
 ### Validators
 
+- I used the W3 validator for both HTML and CSS
 
+    - HTML: As shown in the screenshot below it passed all tests
+    ![html test](assets/images/readme-images/HTML-validator.png)
+
+    - CSS: As shown in the screenshot below it passed all tests
+    ![css test](assets/images/readme-images/CSS-validator.png)
 
 ### Performance
 
@@ -133,6 +139,7 @@ ___
 
 ### Compatibility
 
+I tested the site on several different browsers (Chrome, Firefox, Opera and Safari) and did not notice any problems on Different browsers.
 
 
 ## Deployment
