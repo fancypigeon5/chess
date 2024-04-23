@@ -67,6 +67,13 @@ nav p {
     z-index: 10;
 }
 
+#no-script {
+    padding: 1em;
+    margin: 1em;
+    background-color: antiquewhite;
+    border-radius: 3em;
+}
+
 #settings {
     display: flex;
     padding: 1em;
@@ -293,7 +300,6 @@ input[type='checkbox'] {
     padding: 1em;
     background-color: antiquewhite;
     border-radius: 3em;
-    width: 80%;
     justify-content: space-around;
     align-items: center;
 }
