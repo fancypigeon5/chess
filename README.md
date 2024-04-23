@@ -141,12 +141,17 @@ ___
 
 ### Performance
 
-
+- To check the performance of the page we used PageSpeed which tests for both mobile and desktop. We got an acceptable score both on mobile and on desktop.
+![mobile performance](readme-assets/readme-images/performance-mobile.png)
+![desktop performance](readme-assets/readme-images/performance-desktop.png)
 
 ### Compatibility
 
-I tested the site on several different browsers (Chrome, Firefox, Opera and Safari) and did not notice any problems on Different browsers.
+- I tested the site on several different browsers (Chrome, Firefox, Opera and Safari) and did not notice any problems on Different browsers.
 
+### Responsiveness
+
+- I tested the site on a number of different screen sizes ranging from very small screens e.g. iPhone 5 (320px wide) to very large screens e.g. 5K iMac Pro (5120 x 2880 px).
 
 ## Deployment
 
