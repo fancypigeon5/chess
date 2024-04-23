@@ -1,7 +1,10 @@
+/**
+ * Creates an 8x8 checkered board 
+*/ 
 function createBoard() {
     let board = document.getElementById('board');
     for (let c = 8; c > 0; c--) {
-        for (let r = 1; r < 9; r++) {
+        for (let r = 1; r <= 8; r++) {
             let square = document.createElement('div');
             let color = (r + c) % 2 === 0 ? 'black' : 'white';
             square.setAttribute('id', `${r}${c}`);
@@ -19,6 +22,11 @@ class Piece {
         this.position = startingPosition;
         this.moved = false;
     }
+
+    /**
+     * Places the piece on the board 
+     * on the square with coordinates equal to this.position
+     */
     place() {
         let parentSquare = document.getElementById(this.position);
         let pieceDisplayed = document.createElement('img');
@@ -28,15 +36,40 @@ class Piece {
         pieceDisplayed.setAttribute('alt', this.color + this.piece)
         parentSquare.appendChild(pieceDisplayed);
     }
+
+    /**
+     * Generates all legal moves for this piece
+     * 
+     * @returns {string[]} Array of legal moves for this piece
+     */
     generateLegalMoves() {
         return []
     }
+
+    /**
+     * Gets the current file
+     * 
+     * @returns {number} the file cordinate for the current position
+     */
     file() {
         return Number(this.position.charAt(0));
     }
+
+    /**
+     * Gets the current row
+     * 
+     * @returns {number} the row cordinate for the current position
+     */
     row() {
         return Number(this.position.charAt(1));
     }
+
+    /**
+     * Checks if the legal moves are possible
+     * (does not contain piece of own color or puts own king in check)
+     * 
+     * @returns {string[]} all possible legal moves
+     */
     legalMoves() {
         let legalMoves = this.generateLegalMoves();
         let legalMovesLoop = [];
@@ -54,11 +87,28 @@ class Piece {
         legalMoves = this.moveCheck(legalMovesLoop);
         return(legalMoves);
     }
+
+    /**
+     * Checks if en passant is used
+     * and if so captures the piece
+     */
     enPassant() {
     }
+
+    /**
+     * Checks if casteling rule is used
+     * and if so moves the rook to the right position
+     */
     casteling() {
 
     }
+
+    /**
+     * Checks if this move is legal
+     * and if so moves the piece to the new position
+     * 
+     * @param {string} newPosition - the coordinates of the square a piece wants to move to
+     */
     move(newPosition) {
         let legalMoves = this.legalMoves();
         if (legalMoves.includes(newPosition)) {
@@ -76,6 +126,14 @@ class Piece {
             alert('Illegal move!');
         }
     }
+
+    /**
+     * Checks a list of potential moves
+     * and returns the ones that do not put own king in check
+     * 
+     * @param {string[]} moveList - all potentially legal moves
+     * @returns {string[]} list of moves that do not put own king in check
+     */
     moveCheck(moveList) {
         let notCheckMoves = [];
         let tempCapture = '';
@@ -107,21 +165,40 @@ class Piece {
         }
         return (notCheckMoves);
     }
+
+    /**
+     * Removes a piece from the board but not from the piecesOnBoard object
+     * 
+     * @returns {string} name of the removed piece
+     */
     tempCaptured() {
         this.remove();
         return (this.pieceName)
     }
+
+    /**
+     * Removes this piece from the board
+     */
     remove() {
         let parentSquare = document.getElementById(this.position);
         let piece = parentSquare.children[0];
         parentSquare.removeChild(piece);
     }
+
+    /**
+     * Removes this piece from the board
+     * and moves it from piecesOnBoard to capturedPieces
+     */
     isCaptured() {
         movesSinceCapture = 0;
         this.remove();
         capturedPieces[this.pieceName] = piecesOnBoard[this.pieceName];
         delete piecesOnBoard[this.pieceName];
     }
+
+    /**
+     * Highlight all the legal and possible moves of this piece on the board
+     */
     highlight() {
         let legalMoves = this.legalMoves();
         for(let i of legalMoves) {
@@ -234,7 +311,12 @@ class Pawn extends Piece {
         }
     }
 
-    promote (piece) {
+    /**
+     * Turns this pawn into a different piece after promotion
+     * 
+     * @param {string} piece - the type of piece it should turn in to
+     */
+    promote(piece) {
         let name = this.color + 'Promoted' + piece;
         switch (piece) {
             case 'knight':
@@ -573,6 +655,13 @@ class King extends Piece {
     }
 }
 
+
+/**
+ * Generates all the starting pieces 
+ * and puts them in the starting position
+ * 
+ * @returns {object} all of the starting pieces
+ */
 function startingSetup() {
     let pieceCollection = {}
     for (let color of ['black', 'white']) {
@@ -619,6 +708,11 @@ function startingSetup() {
     return (pieceCollection)
 }
 
+/**
+ * Creates an array of the current board state
+ * 
+ * @returns {string[]} the content of each board square in order
+ */
 function boardState() {
     let board = [];
     for (let r = 1; r <= 8; r++) {
@@ -635,6 +729,14 @@ function boardState() {
     return board;
 }
 
+
+/**
+ * Check whether or not a certain colored king is in check on a certain square
+ * 
+ * @param {string} color - the color of the king
+ * @param {string} square - the square of the king
+ * @returns {boolean} whether or not the king is in check
+ */
 function isCheck(color, square) {
     let inCheck = false;
     let file = Number(square.charAt(0));
@@ -819,6 +921,13 @@ function isCheck(color, square) {
     return(inCheck);
 }
 
+/**
+ * Checks if an array contains another array
+ * 
+ * @param {any[]} arr1 - array that might contain the other array
+ * @param {string[]} arr2 - array that might be contained in the other array
+ * @returns {boolean}
+ */
 function searchArray(arr1, arr2) {
     let contains = false;
     for (let i of arr1) {
@@ -830,6 +939,13 @@ function searchArray(arr1, arr2) {
     return contains;
 }
 
+
+/**
+ * Moves the piece to the clicked square
+ * and triggers al related events (timers, removehighlights, ...)
+ * 
+ * @param {object} event - click event
+ */
 function moveToClicked(event) {
     let clicked;
     let piece;
@@ -878,6 +994,15 @@ function moveToClicked(event) {
     addListeners();
 }
 
+
+/**
+ * Checks if there is a promotion
+ * if so creates the promotion overlay HTML
+ * and injects it into the HTML
+ * 
+ * @param {string} piece - the piece to check for promotion
+ * @param {string} clicked - the square to check for promotion
+ */
 function promotionOverlay(piece, clicked) {
     if (piecesOnBoard[piece].piece === 'pawn') {
         if (clicked.charAt(1) === '8' || clicked.charAt(1) === '1') {
@@ -901,6 +1026,10 @@ function promotionOverlay(piece, clicked) {
     }
 }
 
+
+/**
+ *  Adds the increment time to the timer of the player whose turn it is
+ */
 function addIncrement() {
     if (turn === 'white') {
         moveCount++;
@@ -916,6 +1045,10 @@ function addIncrement() {
     }
 }
 
+/**
+ * Checks if the end conditions are met
+ * if so ends the game
+ */
 function checkEndConditions() {
     let movesLeft = false;
     for (let i in piecesOnBoard) {
@@ -943,6 +1076,12 @@ function checkEndConditions() {
     }
 }
 
+/**
+ * Promotes the pawn to the clicked piece
+ * and removes the promotion overlay
+ * 
+ * @param {object} event - click event
+ */
 function promotePawn(event) {
     movesSinceCapture = 0;
     let promote = event.target.id;
@@ -960,6 +1099,11 @@ function promotePawn(event) {
     }
 }
 
+/**
+ * creates an overlay with the game ending message
+ * 
+ * @param {string} message - message to display
+ */
 function gameEnding(message) {
     removeListeners();
     clearInterval(intervalID);
@@ -973,6 +1117,13 @@ function gameEnding(message) {
     overlayDiv.addEventListener('click', () => {document.getElementById('messagefield').remove()})
 }
 
+
+/**
+ * Highlights the squares of the clicked piece 
+ * and adds eventlisteners on them 
+ * 
+ * @param {object} event - click event
+ */
 function highlight(event) {
     removeHighlight();
     addListeners();
@@ -989,6 +1140,10 @@ function highlight(event) {
     }
 }
 
+
+/**
+ * Removes all highlights from squares (except check)
+ */
 function removeHighlight() {
     let squares = document.getElementsByClassName('square');
     for (let i = 0; i < squares.length; i++) {
@@ -1005,6 +1160,9 @@ function removeHighlight() {
     }
 }
 
+/**
+ * Removes listeners from pieces of the current player
+ */
 function removeListeners() {
     let pieces = document.getElementsByClassName('piece');
     for (let i = 0; i < pieces.length; i++) {
@@ -1014,6 +1172,10 @@ function removeListeners() {
     }
 }
 
+
+/**
+ * Adds listeners from pieces of the current player
+ */
 function addListeners() {
     for (let i in piecesOnBoard) {
         if (document.getElementById(i).classList.contains(turn)) {
@@ -1022,14 +1184,22 @@ function addListeners() {
     }
 }
 
+/**
+ * Applies the times to black and white
+ */
 function startingtimes() {
+    let currentTurn = turn;
     turn = 'white';
     countdown();
     turn = 'black';
     countdown();
-    turn = 'white';
+    turn = currentTurn;
 }
 
+/**
+ * Remove a second from the current players time
+ * and end game if the seconds left is 0  
+ */
 function countdown () {
     let minutes = document.getElementById(turn + '-minutes');
     let seconds = document.getElementById(turn + '-seconds');
@@ -1051,11 +1221,17 @@ function countdown () {
     }
 }
 
+/**
+ * Run countdown every second
+ */
 function timer() {
     intervalID = setInterval(countdown, 1000);
     interval = true;
 }
 
+/**
+ * flip the board if flip is checked
+ */
 function flipBoard() {
     if (flip) {
         if (turn === 'black') {
@@ -1066,6 +1242,9 @@ function flipBoard() {
     }
 }
 
+/**
+ * Adds eventlisteners to up and down arrows
+ */
 function numberInputs() {
     let fields = document.getElementsByClassName('num-input');
     console.log(fields);
@@ -1077,11 +1256,21 @@ function numberInputs() {
     console.log('test')
 }
 
+/**
+ * Increases the value of the number
+ * 
+ * @param {object} event - click event
+ */
 function numUp(event) {
     let num = event.target.parentNode.getElementsByClassName('number')[0];
     num.value = parseInt(num.value) + 1;
 }
 
+/**
+ * Decreases the value of the number
+ * 
+ * @param {object} event - click event
+ */
 function numDown(event) {
     let num = event.target.parentNode.getElementsByClassName('number')[0];
     if (parseInt(num.value) > 0) {
@@ -1089,6 +1278,11 @@ function numDown(event) {
     }
 }
 
+/**
+ * Applies the chosen settings to the game
+ * 
+ * @param {object} event - click event
+ */
 function applySettings(event) {
     event.preventDefault();
     timeControl = parseInt(document.getElementById('time-minutes').value) * 60;
@@ -1105,7 +1299,11 @@ function applySettings(event) {
     addListeners();
 }
 
+/**
+ * Creates the HTML for the settings and injects it into the HTML
+ */
 function settings() {
+    let checked = flip ? 'checked' : '';
     let overlay = document.createElement('div');
     overlay.setAttribute('class', 'overlay');
     overlay.setAttribute('id', 'setting-container')
@@ -1135,7 +1333,7 @@ function settings() {
                 </div>
                 <div class="input-container">
                     <label for="flip">Flip board</label>
-                    <input type="checkbox" name="flip" id="flip">
+                    <input type="checkbox" name="flip" id="flip" ${checked}>
                 </div>
                 <input type="button" value="Start Game" id="start-game">
             </form>
@@ -1145,6 +1343,9 @@ function settings() {
     document.getElementById('start-game').addEventListener('click', applySettings)
 }
 
+/**
+ * Resets the board and timers to starting position 
+ */
 function reset() {
     let square = document.getElementsByClassName('square');
     console.log(square.length);
@@ -1169,9 +1370,23 @@ function reset() {
     addListeners();
 }
 
+/**
+ * Gets the game ready to start
+ */
+function onPageLoad() {
+    createBoard();
+    settings();
+    
+    document.getElementById('nav-settings').addEventListener('click', settings);
+    document.getElementById('nav-reset').addEventListener('click', reset);
 
-createBoard();
-let piecesOnBoard = startingSetup();
+    piecesOnBoard = startingSetup();
+}
+
+
+
+/* Global variables */
+let piecesOnBoard;
 let previousPositions = [];
 let repeatedPositions = [];
 let capturedPieces = {};
@@ -1187,9 +1402,7 @@ let blackSecondsLeft;
 let increment;
 let flip = false;
 
-document.addEventListener("DOMContentLoaded", settings);
-document.getElementById('nav-settings').addEventListener('click', settings);
-document.getElementById('nav-reset').addEventListener('click', reset);
-console.log(piecesOnBoard);
+
+document.addEventListener("DOMContentLoaded", onPageLoad);
 
 
