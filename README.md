@@ -2,6 +2,8 @@
 
 Homesquare Chess is designed to be an object-oriented JavaScript chess board. The project's goal is to establish an online platform where users can enjoy local chess games with friends and family. Additionally, it seeks to apply various fundamental JavaScript concepts through clear object-oriented coding to deliver a fully functional chessboard. This board will incorporate all essential chess rules, including piece movement, checks, draws, checkmates, and more.
 
+![mockup](readme-assets/readme-images/mockup.png)
+
 ## Features
 
 ### Existing features
@@ -10,14 +12,14 @@ Homesquare Chess is designed to be an object-oriented JavaScript chess board. Th
 
     - At the top of the page we find the header containing a logo and a nav section that lets players reset the board or access the settings.
 
-    ![Header screenshot](assets/images/readme-images/header.png)
+    ![Header screenshot](readme-assets/readme-images/header.png)
 
 - __Player info__
 
     - These sections display the players names and a timer to display the time they have left.
 
-    ![Player 1 info](assets/images/readme-images/player1.png)
-    ![Player 2 info](assets/images/readme-images/player2.png)
+    ![Player 1 info](readme-assets/readme-images/player1.png)
+    ![Player 2 info](readme-assets/readme-images/player2.png)
 
 - __Settings section__
 
@@ -35,7 +37,7 @@ Homesquare Chess is designed to be an object-oriented JavaScript chess board. Th
     
     - After clicking the start game button these settings will be applied
 
-    ![settings overlay](assets/images/readme-images/setting.png)
+    ![settings overlay](readme-assets/readme-images/setting.png)
 
 - __The board area__
 
@@ -45,7 +47,7 @@ Homesquare Chess is designed to be an object-oriented JavaScript chess board. Th
 
     - When clicked a piece will display all the possible legal moves it can make.
 
-    ![The board section](assets/images/readme-images/board.png)
+    ![The board section](readme-assets/readme-images/board.png)
 
 - __Promotion overlay__
 
@@ -53,7 +55,7 @@ Homesquare Chess is designed to be an object-oriented JavaScript chess board. Th
 
     - This section presents the player with the possible pieces the pawn can turn into when clicked.
 
-    ![The promotion overlay](assets/images/readme-images/promotion.png)
+    ![The promotion overlay](readme-assets/readme-images/promotion.png)
 
 - __End of game overlay__
 
@@ -62,21 +64,21 @@ Homesquare Chess is designed to be an object-oriented JavaScript chess board. Th
     - Win conditions are: 
 
         - When a player is in check and there are no ways of escaping it.
-        ![Checkmate overlay](assets/images/readme-images/checkmate.png)
+        ![Checkmate overlay](readme-assets/readme-images/checkmate.png)
 
         - When a player runs out of time.
-        ![Out of time overlay](assets/images/readme-images/out-of-time.png)
+        ![Out of time overlay](readme-assets/readme-images/out-of-time.png)
 
     - Draw conditions are:
 
         - When the same position is reached 3 times this game.
-        ![3 times repetition](assets/images/readme-images/3-time-repetition.png)
+        ![3 times repetition](readme-assets/readme-images/3-time-repetition.png)
 
         - When there have been 50 full moves without any captures.
-        ![50 move rule](assets/images/readme-images/50-move-rule.png)
+        ![50 move rule](readme-assets/readme-images/50-move-rule.png)
 
         - When on a player's turn, they have no legal moves left but are not currently in check.
-        ![Stalemate](assets/images/readme-images/stalemate.png)
+        ![Stalemate](readme-assets/readme-images/stalemate.png)
     
 
 ### Features left to implement
@@ -121,18 +123,20 @@ ___
 
 ### Tests
 
-- __All the tests can be found in [this file](assets/testing/testing.md).__
+- __All the tests can be found in [this file](readme-assets/testing/testing.md).__
 
 ### Validators
 
 - I used the W3 validator for both HTML and CSS
 
     - HTML: As shown in the screenshot below it passed all tests
-    ![html test](assets/images/readme-images/HTML-validator.png)
+    ![html test](readme-assets/readme-images/HTML-validator.png)
 
     - CSS: As shown in the screenshot below it passed all tests
-    ![css test](assets/images/readme-images/CSS-validator.png)
+    ![css test](readme-assets/readme-images/CSS-validator.png)
 
+    - JS: As shown in the screenshot below it passed all tests
+    ![js test](readme-assets/readme-images/JS-validator.png)
     
 
 ### Performance
