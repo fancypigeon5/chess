@@ -1,6 +1,6 @@
 /**
  * Creates an 8x8 checkered board 
-*/ 
+ */
 function createBoard() {
     let board = document.getElementById('board');
     for (let c = 8; c > 0; c--) {
@@ -22,7 +22,7 @@ class Piece {
         this.position = startingPosition;
         this.moved = false;
     }
-
+    
     /**
      * Places the piece on the board 
      * on the square with coordinates equal to this.position
@@ -32,20 +32,20 @@ class Piece {
         let pieceDisplayed = document.createElement('img');
         pieceDisplayed.setAttribute('class', 'piece ' + this.color + ' ' + this.piece);
         pieceDisplayed.setAttribute('id', this.pieceName);
-        pieceDisplayed.setAttribute('src', this.url)
-        pieceDisplayed.setAttribute('alt', this.color + this.piece)
+        pieceDisplayed.setAttribute('src', this.url);
+        pieceDisplayed.setAttribute('alt', this.color + this.piece);
         parentSquare.appendChild(pieceDisplayed);
     }
-
+    
     /**
      * Generates all legal moves for this piece
      * 
      * @returns {string[]} Array of legal moves for this piece
      */
     generateLegalMoves() {
-        return []
+        return [];
     }
-
+    
     /**
      * Gets the current file
      * 
@@ -54,7 +54,7 @@ class Piece {
     file() {
         return Number(this.position.charAt(0));
     }
-
+    
     /**
      * Gets the current row
      * 
@@ -63,7 +63,7 @@ class Piece {
     row() {
         return Number(this.position.charAt(1));
     }
-
+    
     /**
      * Checks if the legal moves are possible
      * (does not contain piece of own color or puts own king in check)
@@ -80,29 +80,29 @@ class Piece {
                 if (occupiedBy) {
                     legalMovesLoop.push(i);
                 }
-            } else {
+            }
+            else {
                 legalMovesLoop.push(i);
             }
         }
         legalMoves = this.moveCheck(legalMovesLoop);
-        return(legalMoves);
+        return (legalMoves);
     }
-
+    
     /**
      * Checks if en passant is used
      * and if so captures the piece
      */
-    enPassant() {
-    }
-
+    enPassant() {}
+    
     /**
      * Checks if casteling rule is used
      * and if so moves the rook to the right position
      */
     casteling() {
-
+        
     }
-
+    
     /**
      * Checks if this move is legal
      * and if so moves the piece to the new position
@@ -122,11 +122,12 @@ class Piece {
             this.position = newPosition;
             this.place();
             this.moved = true;
-        } else {
+        }
+        else {
             alert('Illegal move!');
         }
     }
-
+    
     /**
      * Checks a list of potential moves
      * and returns the ones that do not put own king in check
@@ -151,7 +152,8 @@ class Piece {
                 this.position = position;
                 this.place();
                 piecesOnBoard[tempCapture].place();
-            } else {
+            }
+            else {
                 this.remove();
                 this.position = i;
                 this.place();
@@ -165,7 +167,7 @@ class Piece {
         }
         return (notCheckMoves);
     }
-
+    
     /**
      * Removes a piece from the board but not from the piecesOnBoard object
      * 
@@ -173,9 +175,9 @@ class Piece {
      */
     tempCaptured() {
         this.remove();
-        return (this.pieceName)
+        return (this.pieceName);
     }
-
+    
     /**
      * Removes this piece from the board
      */
@@ -184,7 +186,7 @@ class Piece {
         let piece = parentSquare.children[0];
         parentSquare.removeChild(piece);
     }
-
+    
     /**
      * Removes this piece from the board
      * and moves it from piecesOnBoard to capturedPieces
@@ -195,13 +197,13 @@ class Piece {
         capturedPieces[this.pieceName] = piecesOnBoard[this.pieceName];
         delete piecesOnBoard[this.pieceName];
     }
-
+    
     /**
      * Highlight all the legal and possible moves of this piece on the board
      */
     highlight() {
         let legalMoves = this.legalMoves();
-        for(let i of legalMoves) {
+        for (let i of legalMoves) {
             let legalsquare = document.getElementById(i);
             legalsquare.classList.add('legal');
             legalsquare.setAttribute('legal-piece', this.pieceName);
@@ -214,27 +216,29 @@ class Pawn extends Piece {
         super(pieceName, 'pawn', color, startingPosition);
         this.url = 'assets/images/' + this.color + '-pawn.svg';
     }
-
+    
     generateLegalMoves() {
         let legalMoves = [];
         let file = this.file();
         let row = this.row();
         let startingRow = this.color === 'white' ? 2 : 7;
-        if(this.color === 'white') {
+        if (this.color === 'white') {
             if (document.getElementById(file.toString() + (row + 1).toString()).children.length === 0) {
                 legalMoves.push(file.toString() + (row + 1).toString());
             }
-        } else {
+        }
+        else {
             if (document.getElementById(file.toString() + (row - 1).toString()).children.length === 0) {
                 legalMoves.push(file.toString() + (row - 1).toString());
             }
         }
         if (row === startingRow) {
-            if(this.color === 'white') {
+            if (this.color === 'white') {
                 if (document.getElementById(file.toString() + (row + 1).toString()).children.length === 0 && document.getElementById(file.toString() + (row + 2).toString()).children.length === 0) {
                     legalMoves.push(file.toString() + (row + 2).toString());
                 }
-            } else {
+            }
+            else {
                 if (document.getElementById(file.toString() + (row - 1).toString()).children.length === 0 && document.getElementById(file.toString() + (row - 2).toString()).children.length === 0) {
                     legalMoves.push(file.toString() + (row - 2).toString());
                 }
@@ -242,7 +246,7 @@ class Pawn extends Piece {
             
         }
         if (file + 1 <= 8) {
-            if(this.color === 'white') {
+            if (this.color === 'white') {
                 if (document.getElementById((file + 1).toString() + (row + 1).toString()).children.length !== 0) {
                     if (!document.getElementById((file + 1).toString() + (row + 1).toString()).children[0].classList.contains(this.color)) {
                         legalMoves.push((file + 1).toString() + (row + 1).toString());
@@ -250,10 +254,11 @@ class Pawn extends Piece {
                 }
                 if (enPassant.length !== 0) {
                     if ((file + 1).toString() + (row).toString() === enPassant) {
-                        legalMoves.push((file + 1).toString() + (row + 1).toString())
+                        legalMoves.push((file + 1).toString() + (row + 1).toString());
                     }
                 }
-            } else {
+            }
+            else {
                 if (document.getElementById((file + 1).toString() + (row - 1).toString()).children.length !== 0) {
                     if (!document.getElementById((file + 1).toString() + (row - 1).toString()).children[0].classList.contains(this.color)) {
                         legalMoves.push((file + 1).toString() + (row - 1).toString());
@@ -261,25 +266,26 @@ class Pawn extends Piece {
                 }
                 if (enPassant.length !== 0) {
                     if ((file + 1).toString() + (row).toString() === enPassant) {
-                        legalMoves.push((file + 1).toString() + (row - 1).toString())
+                        legalMoves.push((file + 1).toString() + (row - 1).toString());
                     }
                 }
             }
             
         }
         if (file - 1 > 0) {
-            if(this.color === 'white') {
+            if (this.color === 'white') {
                 if (document.getElementById((file - 1).toString() + (row + 1).toString()).children.length !== 0) {
                     if (!document.getElementById((file - 1).toString() + (row + 1).toString()).children[0].classList.contains(this.color)) {
                         legalMoves.push((file - 1).toString() + (row + 1).toString());
-                    }    
+                    }
                 }
                 if (enPassant.length !== 0) {
                     if ((file - 1).toString() + (row).toString() === enPassant) {
-                        legalMoves.push((file - 1).toString() + (row + 1).toString())
+                        legalMoves.push((file - 1).toString() + (row + 1).toString());
                     }
                 }
-            } else {
+            }
+            else {
                 if (document.getElementById((file - 1).toString() + (row - 1).toString()).children.length !== 0) {
                     if (!document.getElementById((file - 1).toString() + (row - 1).toString()).children[0].classList.contains(this.color)) {
                         legalMoves.push((file - 1).toString() + (row - 1).toString());
@@ -287,30 +293,31 @@ class Pawn extends Piece {
                 }
                 if (enPassant.length !== 0) {
                     if ((file - 1).toString() + (row).toString() === enPassant) {
-                        legalMoves.push((file - 1).toString() + (row - 1).toString())
+                        legalMoves.push((file - 1).toString() + (row - 1).toString());
                     }
                 }
-            }  
+            }
         }
         return legalMoves;
     }
-
+    
     enPassant(newPosition) {
         if (enPassant !== '') {
             if (this.color === 'white') {
                 if (newPosition === enPassant.charAt(0) + (Number(enPassant.charAt(1)) + 1).toString()) {
                     let capturedPiece = document.getElementById(enPassant).children[0];
                     piecesOnBoard[capturedPiece.id].isCaptured();
-                } 
-            } else {
+                }
+            }
+            else {
                 if (newPosition === enPassant.charAt(0) + (Number(enPassant.charAt(1)) - 1).toString()) {
                     let capturedPiece = document.getElementById(enPassant).children[0];
                     piecesOnBoard[capturedPiece.id].isCaptured();
-                } 
+                }
             }
         }
     }
-
+    
     /**
      * Turns this pawn into a different piece after promotion
      * 
@@ -342,7 +349,7 @@ class Knight extends Piece {
         super(pieceName, 'knight', color, startingPosition);
         this.url = 'assets/images/' + this.color + '-knight.svg';
     }
-
+    
     generateLegalMoves() {
         let legalMoves = [];
         let file = this.file();
@@ -357,7 +364,7 @@ class Knight extends Piece {
         }
         if (file - 2 > 0) {
             if (row + 1 <= 8) {
-                legalMoves.push((file - 2).toString() + (row + 1).toString());                        
+                legalMoves.push((file - 2).toString() + (row + 1).toString());
             }
             if (row - 1 > 0) {
                 legalMoves.push((file - 2).toString() + (row - 1).toString());
@@ -388,7 +395,7 @@ class Bishop extends Piece {
         super(pieceName, 'bishop', color, startingPosition);
         this.url = 'assets/images/' + this.color + '-bishop.svg';
     }
-
+    
     generateLegalMoves() {
         let legalMoves = [];
         let file = this.file();
@@ -442,7 +449,7 @@ class Rook extends Piece {
         super(pieceName, 'rook', color, startingPosition);
         this.url = 'assets/images/' + this.color + '-rook.svg';
     }
-
+    
     generateLegalMoves() {
         let legalMoves = [];
         let file = this.file();
@@ -468,7 +475,7 @@ class Rook extends Piece {
         fileR = file;
         rowR = row;
         while (rowR + 1 <= 8) {
-            legalMoves.push(fileR .toString() + (rowR + 1).toString());
+            legalMoves.push(fileR.toString() + (rowR + 1).toString());
             if (document.getElementById(fileR.toString() + (rowR + 1).toString()).children.length !== 0) {
                 break;
             }
@@ -477,7 +484,7 @@ class Rook extends Piece {
         fileR = file;
         rowR = row;
         while (rowR - 1 > 0) {
-            legalMoves.push(fileR .toString() + (rowR - 1).toString());
+            legalMoves.push(fileR.toString() + (rowR - 1).toString());
             if (document.getElementById(fileR.toString() + (rowR - 1).toString()).children.length !== 0) {
                 break;
             }
@@ -558,7 +565,7 @@ class Queen extends Piece {
         fileQ = file;
         rowQ = row;
         while (rowQ + 1 <= 8) {
-            legalMoves.push(fileQ .toString() + (rowQ + 1).toString());
+            legalMoves.push(fileQ.toString() + (rowQ + 1).toString());
             if (document.getElementById(fileQ.toString() + (rowQ + 1).toString()).children.length !== 0) {
                 break;
             }
@@ -567,7 +574,7 @@ class Queen extends Piece {
         fileQ = file;
         rowQ = row;
         while (rowQ - 1 > 0) {
-            legalMoves.push(fileQ .toString() + (rowQ - 1).toString());
+            legalMoves.push(fileQ.toString() + (rowQ - 1).toString());
             if (document.getElementById(fileQ.toString() + (rowQ - 1).toString()).children.length !== 0) {
                 break;
             }
@@ -582,7 +589,7 @@ class King extends Piece {
         super(pieceName, 'king', color, startingPosition);
         this.url = 'assets/images/' + this.color + '-king.svg';
     }
-
+    
     generateLegalMoves() {
         let legalMoves = [];
         let file = this.file();
@@ -595,7 +602,7 @@ class King extends Piece {
                     if (document.getElementById((fileK + 1).toString() + row.toString()).children.length !== 0) {
                         let piece = document.getElementById((fileK + 1).toString() + row.toString()).children[0].id;
                         if (piecesOnBoard[piece].piece === 'rook' && !piecesOnBoard[piece].moved) {
-                            legalMoves.push((file + 2).toString() + row.toString())
+                            legalMoves.push((file + 2).toString() + row.toString());
                         }
                         break;
                     }
@@ -608,7 +615,7 @@ class King extends Piece {
                     if (document.getElementById((fileK - 1).toString() + row.toString()).children.length !== 0) {
                         let piece = document.getElementById((fileK - 1).toString() + row.toString()).children[0].id;
                         if (piecesOnBoard[piece].piece === 'rook' && !piecesOnBoard[piece].moved) {
-                            legalMoves.push((file - 2).toString() + row.toString())
+                            legalMoves.push((file - 2).toString() + row.toString());
                         }
                         break;
                     }
@@ -630,7 +637,7 @@ class King extends Piece {
             legalMoves.push((file - 1).toString() + (row - 1).toString());
         }
         if (file + 1 <= 8) {
-            legalMoves.push((file + 1).toString() + row.toString());   
+            legalMoves.push((file + 1).toString() + row.toString());
         }
         if (file - 1 > 0) {
             legalMoves.push((file - 1).toString() + row.toString());
@@ -643,14 +650,15 @@ class King extends Piece {
         }
         return legalMoves;
     }
-
+    
     casteling(newPosition) {
         if (newPosition === (Number(this.position.charAt(0)) + 2).toString() + this.position.charAt(1)) {
             let rook = document.getElementById('8' + this.position.charAt(1)).children[0].id;
-            piecesOnBoard[rook].move('6' + this.position.charAt(1))
-        } else if (newPosition === (Number(this.position.charAt(0)) - 2).toString() + this.position.charAt(1)) {
+            piecesOnBoard[rook].move('6' + this.position.charAt(1));
+        }
+        else if (newPosition === (Number(this.position.charAt(0)) - 2).toString() + this.position.charAt(1)) {
             let rook = document.getElementById('1' + this.position.charAt(1)).children[0].id;
-            piecesOnBoard[rook].move('4' + this.position.charAt(1))
+            piecesOnBoard[rook].move('4' + this.position.charAt(1));
         }
     }
 }
@@ -663,11 +671,11 @@ class King extends Piece {
  * @returns {object} all of the starting pieces
  */
 function startingSetup() {
-    let pieceCollection = {}
+    let pieceCollection = {};
     for (let color of ['black', 'white']) {
         /* pawns */
         let col = 1;
-        for(let column of ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']) {
+        for (let column of ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']) {
             let thisPiece = color + column + 'Pawn';
             let row = color === 'white' ? '2' : '7';
             pieceCollection[thisPiece] = new Pawn(thisPiece, color, col.toString() + row);
@@ -675,21 +683,21 @@ function startingSetup() {
             col++;
         }
         /* knights */
-        for(let i of [2, 7]) {
+        for (let i of [2, 7]) {
             let thisPiece = color + i + 'Knight';
             let row = color === 'white' ? '1' : '8';
             pieceCollection[thisPiece] = new Knight(thisPiece, color, i.toString() + row);
             pieceCollection[thisPiece].place();
         }
         /* bishops */
-        for(let i of [3, 6]) {
+        for (let i of [3, 6]) {
             let thisPiece = color + i + 'Bishop';
             let row = color === 'white' ? '1' : '8';
             pieceCollection[thisPiece] = new Bishop(thisPiece, color, i.toString() + row);
             pieceCollection[thisPiece].place();
         }
         /* rooks */
-        for(let i of [1, 8]) {
+        for (let i of [1, 8]) {
             let thisPiece = color + i + 'Rook';
             let row = color === 'white' ? '1' : '8';
             pieceCollection[thisPiece] = new Rook(thisPiece, color, i.toString() + row);
@@ -705,7 +713,7 @@ function startingSetup() {
         pieceCollection[thisPiece] = new King(thisPiece, color, '5' + row);
         pieceCollection[thisPiece].place();
     }
-    return (pieceCollection)
+    return (pieceCollection);
 }
 
 /**
@@ -716,12 +724,13 @@ function startingSetup() {
 function boardState() {
     let board = [];
     for (let r = 1; r <= 8; r++) {
-        for(let f = 1; f <= 8; f++) {
+        for (let f = 1; f <= 8; f++) {
             let square = document.getElementById(f.toString() + r.toString());
             if (square.children.length !== 0) {
                 let pieceName = square.children[0].id;
                 board.push(piecesOnBoard[pieceName].color + piecesOnBoard[pieceName].piece);
-            } else {
+            }
+            else {
                 board.push('');
             }
         }
@@ -744,27 +753,29 @@ function isCheck(color, square) {
     /* pawn */
     let pawnSquares = [];
     if (file + 1 <= 8) {
-        if(color === 'white') {
+        if (color === 'white') {
             if (row + 1 <= 8) {
                 pawnSquares.push((file + 1).toString() + (row + 1).toString());
             }
-        } else {
+        }
+        else {
             if (row - 1 > 0) {
                 pawnSquares.push((file + 1).toString() + (row - 1).toString());
             }
-        } 
+        }
     }
     if (file - 1 > 0) {
-        if(this.color === 'white') {
-            if(row + 1 <= 8) {
+        if (this.color === 'white') {
+            if (row + 1 <= 8) {
                 pawnSquares.push((file - 1).toString() + (row + 1).toString());
             }
             
-        } else {
+        }
+        else {
             if (row - 1 > 0) {
                 pawnSquares.push((file - 1).toString() + (row - 1).toString());
             }
-        }  
+        }
     }
     /* Bishop */
     let bishopSquares = [];
@@ -831,7 +842,7 @@ function isCheck(color, square) {
     fileR = file;
     rowR = row;
     while (rowR + 1 <= 8) {
-        rookSquares.push(fileR .toString() + (rowR + 1).toString());
+        rookSquares.push(fileR.toString() + (rowR + 1).toString());
         if (document.getElementById(fileR.toString() + (rowR + 1).toString()).children.length !== 0) {
             break;
         }
@@ -840,7 +851,7 @@ function isCheck(color, square) {
     fileR = file;
     rowR = row;
     while (rowR - 1 > 0) {
-        rookSquares.push(fileR .toString() + (rowR - 1).toString());
+        rookSquares.push(fileR.toString() + (rowR - 1).toString());
         if (document.getElementById(fileR.toString() + (rowR - 1).toString()).children.length !== 0) {
             break;
         }
@@ -858,7 +869,7 @@ function isCheck(color, square) {
     }
     if (file - 2 > 0) {
         if (row + 1 <= 8) {
-            knightSquares.push((file - 2).toString() + (row + 1).toString());                        
+            knightSquares.push((file - 2).toString() + (row + 1).toString());
         }
         if (row - 1 > 0) {
             knightSquares.push((file - 2).toString() + (row - 1).toString());
@@ -880,7 +891,7 @@ function isCheck(color, square) {
             knightSquares.push((file - 1).toString() + (row - 2).toString());
         }
     }
-
+    
     /* testing */
     for (let i of pawnSquares) {
         let square = document.getElementById(i);
@@ -903,7 +914,8 @@ function isCheck(color, square) {
         if (square.children.length !== 0) {
             if (square.children[0].classList.contains('bishop') && !square.children[0].classList.contains(color)) {
                 inCheck = true;
-            } else if (square.children[0].classList.contains('queen') && !square.children[0].classList.contains(color)) {
+            }
+            else if (square.children[0].classList.contains('queen') && !square.children[0].classList.contains(color)) {
                 inCheck = true;
             }
         }
@@ -913,12 +925,13 @@ function isCheck(color, square) {
         if (square.children.length !== 0) {
             if (square.children[0].classList.contains('rook') && !square.children[0].classList.contains(color)) {
                 inCheck = true;
-            } else if (square.children[0].classList.contains('queen') && !square.children[0].classList.contains(color)) {
+            }
+            else if (square.children[0].classList.contains('queen') && !square.children[0].classList.contains(color)) {
                 inCheck = true;
             }
         }
     }
-    return(inCheck);
+    return (inCheck);
 }
 
 /**
@@ -957,20 +970,22 @@ function moveToClicked(event) {
     if (event.target.classList.contains('square')) {
         clicked = event.target.id;
         piece = event.target.getAttribute('legal-piece');
-    } else {
+    }
+    else {
         clicked = event.target.parentNode.id;
         piece = event.target.parentNode.getAttribute('legal-piece');
     }
     if (piecesOnBoard[piece].piece === 'pawn' && Math.abs(Number(piecesOnBoard[piece].position.charAt(1)) - Number(clicked.charAt(1))) === 2) {
         enPassant = clicked;
         enPassantable = true;
-
+        
     }
     let board = boardState();
     if (searchArray(previousPositions, board)) {
         repeatedPositions.push(board);
         previousPositions.push(board);
-    } else {
+    }
+    else {
         previousPositions.push(board);
     }
     piecesOnBoard[piece].move(clicked);
@@ -1037,7 +1052,8 @@ function addIncrement() {
         blackSecondsLeft = blackSecondsLeft + 1 + increment;
         countdown();
         turn = 'white';
-    } else {
+    }
+    else {
         turn = 'white';
         whiteSecondsLeft = whiteSecondsLeft + 1 + increment;
         countdown();
@@ -1052,25 +1068,25 @@ function addIncrement() {
 function checkEndConditions() {
     let movesLeft = false;
     for (let i in piecesOnBoard) {
-        if(piecesOnBoard[i].color === turn) {
+        if (piecesOnBoard[i].color === turn) {
             let legalMoves = piecesOnBoard[i].legalMoves();
             if (legalMoves.length !== 0) {
                 movesLeft = true;
             }
-        }    
+        }
     }
     if (!movesLeft) {
-        console.log('end')
         if (isCheck(turn, document.getElementById(turn + 'King').parentNode.id)) {
             gameEnding('Checkmate!!!!');
-        } else {
+        }
+        else {
             gameEnding('Stalemate!!!!');
         }
     }
     if (movesSinceCapture >= 100) {
         gameEnding('50 moves since last capture');
     }
-
+    
     if (searchArray(repeatedPositions, boardState())) {
         gameEnding('3 time repetition');
     }
@@ -1114,7 +1130,9 @@ function gameEnding(message) {
     messageField.innerHTML = `<h1>${message}</h1>`;
     overlayDiv.appendChild(messageField);
     document.getElementById('board').appendChild(overlayDiv);
-    overlayDiv.addEventListener('click', () => {document.getElementById('messagefield').remove()})
+    overlayDiv.addEventListener('click', () => {
+        document.getElementById('messagefield').remove();
+    });
 }
 
 
@@ -1132,11 +1150,12 @@ function highlight(event) {
     piecesOnBoard[piece].highlight();
     let possibleMoves = document.getElementsByClassName('legal');
     for (let i = 0; i < possibleMoves.length; i++) {
-        if(possibleMoves[i].children.length === 0) {
-            possibleMoves[i].addEventListener('click', moveToClicked)
-        } else {
-            possibleMoves[i].children[0].addEventListener('click', moveToClicked)
-        }  
+        if (possibleMoves[i].children.length === 0) {
+            possibleMoves[i].addEventListener('click', moveToClicked);
+        }
+        else {
+            possibleMoves[i].children[0].addEventListener('click', moveToClicked);
+        }
     }
 }
 
@@ -1149,13 +1168,14 @@ function removeHighlight() {
     for (let i = 0; i < squares.length; i++) {
         if (squares[i].classList.contains('legal')) {
             squares[i].classList.remove('legal');
-            squares[i].setAttribute('legal-piece', '')
-        } else if (squares[i].classList.contains('to-move')) {
+            squares[i].setAttribute('legal-piece', '');
+        }
+        else if (squares[i].classList.contains('to-move')) {
             squares[i].classList.remove('to-move');
         }
         let possibleMoves = document.getElementsByClassName('legal');
         for (let i = 0; i < possibleMoves.length; i++) {
-            possibleMoves[i].removeEventListener('click', moveToClicked)
+            possibleMoves[i].removeEventListener('click', moveToClicked);
         }
     }
 }
@@ -1200,7 +1220,7 @@ function startingtimes() {
  * Remove a second from the current players time
  * and end game if the seconds left is 0  
  */
-function countdown () {
+function countdown() {
     let minutes = document.getElementById(turn + '-minutes');
     let seconds = document.getElementById(turn + '-seconds');
     if (turn === 'white') {
@@ -1211,7 +1231,8 @@ function countdown () {
         }
         whiteSecondsLeft--;
         
-    } else {
+    }
+    else {
         minutes.innerHTML = Math.floor(blackSecondsLeft / 60).toString().padStart(2, '0');
         seconds.innerHTML = (blackSecondsLeft % 60).toString().padStart(2, '0');
         if (blackSecondsLeft === 0) {
@@ -1235,9 +1256,10 @@ function timer() {
 function flipBoard() {
     if (flip) {
         if (turn === 'black') {
-            document.getElementById('board').classList.add('reverse')
-        } else {
-            document.getElementById('board').classList.remove('reverse')
+            document.getElementById('board').classList.add('reverse');
+        }
+        else {
+            document.getElementById('board').classList.remove('reverse');
         }
     }
 }
@@ -1247,13 +1269,10 @@ function flipBoard() {
  */
 function numberInputs() {
     let fields = document.getElementsByClassName('num-input');
-    console.log(fields);
-    console.log(fields.length);
     for (let i = 0; i < fields.length; i++) {
         fields[i].getElementsByClassName('num-up')[0].addEventListener('click', numUp);
         fields[i].getElementsByClassName('num-down')[0].addEventListener('click', numDown);
     }
-    console.log('test')
 }
 
 /**
@@ -1306,8 +1325,8 @@ function settings() {
     let checked = flip ? 'checked' : '';
     let overlay = document.createElement('div');
     overlay.setAttribute('class', 'overlay');
-    overlay.setAttribute('id', 'setting-container')
-    overlay.innerHTML = 
+    overlay.setAttribute('id', 'setting-container');
+    overlay.innerHTML =
         `<div id="settings">
             <h1>Game Settings</h1>
             <form action="post" id="settings-form">
@@ -1340,7 +1359,7 @@ function settings() {
         </div>`;
     document.getElementById('main-content').appendChild(overlay);
     numberInputs();
-    document.getElementById('start-game').addEventListener('click', applySettings)
+    document.getElementById('start-game').addEventListener('click', applySettings);
 }
 
 /**
@@ -1348,7 +1367,6 @@ function settings() {
  */
 function reset() {
     let square = document.getElementsByClassName('square');
-    console.log(square.length);
     for (let i = 0; i < square.length; i++) {
         if (square[i].children.length !== 0) {
             square[i].removeChild(square[i].children[0]);
@@ -1379,7 +1397,7 @@ function onPageLoad() {
     
     document.getElementById('nav-settings').addEventListener('click', settings);
     document.getElementById('nav-reset').addEventListener('click', reset);
-
+    
     piecesOnBoard = startingSetup();
 }
 
@@ -1404,5 +1422,3 @@ let flip = false;
 
 
 document.addEventListener("DOMContentLoaded", onPageLoad);
-
-
