@@ -181,7 +181,7 @@ input[type='checkbox'] {
 #start-game {
     margin: .5em;
     cursor: pointer;
-    font-size: x-large;
+    font-size: 1.5em;
     color: black;
     padding: .3em;
     border-radius: 2em;
