@@ -1304,9 +1304,10 @@ function numDown(event) {
  */
 function applySettings(event) {
     event.preventDefault();
+    reset();
     timeControl = parseInt(document.getElementById('time-minutes').value) * 60;
-    let player1Name = document.getElementById('player1-name').value;
-    let player2Name = document.getElementById('player2-name').value;
+    player1Name = document.getElementById('player1-name').value;
+    player2Name = document.getElementById('player2-name').value;
     document.getElementById('name1').innerHTML = player1Name;
     document.getElementById('name2').innerHTML = player2Name;
     increment = parseInt(document.getElementById('increment').value);
@@ -1331,14 +1332,14 @@ function settings() {
             <h1>Game Settings</h1>
             <form action="post" id="settings-form">
                 <label for="player1-name">Player 1 Name:</label>
-                <input type="text" name="player1" id="player1-name" value="Player 1">
+                <input type="text" name="player1" id="player1-name" value=${player1Name}>
                 <label for="player2-name">Player 2 Name:</label>
-                <input type="text" name="player2" id="player2-name" value="Player 2">
+                <input type="text" name="player2" id="player2-name" value=${player2Name}>
                 <div class="input-container">
                     <label for="time-minutes">Time control (minutes)</label>
                     <div class="num-input">
                         <p class="num-up">^</p>
-                        <input type="number" name="minutes" id="time-minutes" value="10" class="number">
+                        <input type="number" name="minutes" id="time-minutes" value=${(timeControl/60).toString()} class="number">
                         <p class="num-down">^</p>
                     </div>
                 </div>
@@ -1346,7 +1347,7 @@ function settings() {
                     <label for="increment">Increment</label>
                     <div class="num-input">
                         <p class="num-up">^</p>
-                        <input type="number" name="increment" id="increment" value="0" class="number">
+                        <input type="number" name="increment" id="increment" value=${increment.toString()} class="number">
                         <p class="num-down">^</p>
                     </div>
                 </div>
@@ -1367,9 +1368,16 @@ function settings() {
  */
 function reset() {
     let square = document.getElementsByClassName('square');
+    let overlay = document.getElementById('overlay');
+    if (overlay) {
+        overlay.remove();
+    }
     for (let i = 0; i < square.length; i++) {
         if (square[i].children.length !== 0) {
             square[i].removeChild(square[i].children[0]);
+        }
+        if (square[i].classList.contains('check')) {
+            square[i].classList.remove('check');
         }
     }
     clearInterval(intervalID);
@@ -1414,10 +1422,12 @@ let movesSinceCapture = 0;
 let turn = 'white';
 let intervalID;
 let interval = false;
-let timeControl;
+let timeControl = 600;
+let player1Name = 'Player1';
+let player2Name = 'Player2';
 let whiteSecondsLeft;
 let blackSecondsLeft;
-let increment;
+let increment =  0;
 let flip = false;
 
 

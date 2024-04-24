@@ -2,6 +2,11 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: "Jersey 10", sans-serif;
+}
+
+h1 {
+    font-weight: 400;
 }
 
 header {
@@ -18,6 +23,10 @@ header {
     justify-content: space-between;
     align-items: center;
     z-index: 10;
+}
+
+header img {
+    height: 100%;
 }
 
 nav {
@@ -106,9 +115,12 @@ input[type='text'] {
     background-color: transparent;
 }
 
+input {
+    font-size: 1em;
+}
+
 label {
-    font-weight: 700;
-    font-size: large;
+    font-size: 1em;
 }
 
 .num-input {
@@ -172,7 +184,6 @@ input[type='checkbox'] {
     margin: .5em;
     cursor: pointer;
     font-size: x-large;
-    font-weight: 700;
     color: black;
     padding: .3em;
     border-radius: 2em;
@@ -226,8 +237,8 @@ input[type='checkbox'] {
 }
 
 #name1, #name2 {
-    font-size: medium;
-    margin: 1em;
+    font-size: 1.5em;
+    margin: .5em;
 }
 
 #clock1, #clock2 {
@@ -256,7 +267,7 @@ input[type='checkbox'] {
     margin-left: auto;
     margin-right: auto;
     padding-top: 0;
-    width: 95%;
+    width: 90%;
     border-radius: .5em;
     z-index: 100;
 }
@@ -337,15 +348,13 @@ input[type='checkbox'] {
     box-shadow: inset 0 0 2em 1em rgb(255, 0, 0);
 }
 
-img {
+#board img {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     aspect-ratio: 1/1;
     background-color: transparent;
-    text-align: center;
-    font-size: xx-large;
 }
 
 h1.white {
@@ -362,6 +371,10 @@ h1.black {
     
     :root {
         font-size: 2vw;
+    }
+
+    header {
+        height: 4em;
     }
 
     nav {
@@ -394,6 +407,10 @@ h1.black {
         transform: rotateZ(90deg);
     }
 
+    .board-container {
+        margin-top: 5em;
+    }
+
     #player1, #player2 {
         flex-direction: row;
     }
@@ -406,7 +423,7 @@ h1.black {
 @media screen and (min-width: 1200px) {
     
     :root {
-        font-size: 1.3vw;
+        font-size: 1.5vw;
     }
 
     #players {
