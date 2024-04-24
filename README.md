@@ -1,6 +1,6 @@
 # Homesquare chess
 
-Homesquare Chess is designed to be an object-oriented JavaScript chess board. The project's goal is to establish an online platform where users can enjoy local chess games with friends and family. Additionally, it seeks to apply various fundamental JavaScript concepts through clear object-oriented coding to deliver a fully functional chessboard. This board will incorporate all essential chess rules, including piece movement, checks, draws, checkmates, and more.
+[Homesquare Chess](https://fancypigeon5.github.io/chess/) is designed to be an object-oriented JavaScript chess board. The project's goal is to establish an online platform where users can enjoy local chess games with friends and family. Additionally, it seeks to apply various fundamental JavaScript concepts through clear object-oriented coding to deliver a fully functional chessboard. This board will incorporate all essential chess rules, including piece movement, checks, draws, checkmates, and more.
 
 ![mockup](readme-assets/readme-images/mockup.png)
 
