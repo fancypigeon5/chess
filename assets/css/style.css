@@ -1,3 +1,4 @@
+/* General styles */
 * {
     margin: 0;
     padding: 0;
@@ -8,6 +9,28 @@
 h1 {
     font-weight: 400;
 }
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+}
+
+#no-script {
+    padding: 1em;
+    margin: 1em;
+    background-color: antiquewhite;
+    border-radius: 3em;
+}
+
+/* Header */
 
 header {
     position: fixed;
@@ -61,25 +84,7 @@ nav p {
     display: none;
 }
 
-.overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 10;
-}
-
-#no-script {
-    padding: 1em;
-    margin: 1em;
-    background-color: antiquewhite;
-    border-radius: 3em;
-}
+/* Settings */
 
 #settings {
     display: flex;
@@ -118,6 +123,8 @@ input {
 }
 
 label {
+    position: relative;
+    line-height: 1.4;
     font-size: 1em;
 }
 
@@ -167,7 +174,9 @@ input[type='number']:focus {
 
 input[type='checkbox'] {
     margin: 0 1em;
+    font-size: 3em;
 }
+
 
 .input-container {
     width: 80%;
@@ -193,6 +202,8 @@ input[type='checkbox'] {
     background-image: linear-gradient(to left, #6c3a5c6e, #bea7e56e);
     border: solid 2px rgba(0, 0, 0, 0.5);
 }
+
+/* Main */
 
 .background {
     position: fixed;
@@ -260,6 +271,8 @@ input[type='checkbox'] {
     min-width: 40%;
 }
 
+/* Board */
+
 .board-container {
     margin-top: 4em;
     margin-left: auto;
@@ -283,40 +296,6 @@ input[type='checkbox'] {
     flex-direction: row;
     flex-wrap: wrap;
     overflow: hidden;
-}
-
-#board.reverse {
-    flex-direction: row-reverse;
-    flex-wrap: wrap-reverse;
-}
-
-#overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 10;
-}
-
-#messagefield {
-    display: flex;
-    flex-direction: row;
-    padding: 1em;
-    background-color: antiquewhite;
-    border-radius: 3em;
-    justify-content: space-around;
-    align-items: center;
-}
-
-.promotionimage {
-    position: static;
-    width: 20%;
-    cursor: pointer;
 }
 
 .square {
@@ -355,15 +334,43 @@ input[type='checkbox'] {
     background-color: transparent;
 }
 
-h1.white {
-    background-color: transparent;
-    color: white;
+#board.reverse {
+    flex-direction: row-reverse;
+    flex-wrap: wrap-reverse;
 }
 
-h1.black {
-    background-color: transparent;
-    color: black;
+/* Promotion and end of game */
+
+#overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
 }
+
+#messagefield {
+    display: flex;
+    flex-direction: row;
+    padding: 1em;
+    background-color: antiquewhite;
+    border-radius: 3em;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.promotionimage {
+    position: static;
+    width: 20%;
+    cursor: pointer;
+}
+
+/* Footer */
 
 footer {
     height: 3em;
@@ -372,9 +379,12 @@ footer {
 
 @media screen and (min-width: 768px) {
     
+    /* General */
     :root {
         font-size: 2vw;
     }
+
+    /* Header */
 
     header {
         height: 4em;
@@ -414,6 +424,8 @@ footer {
         margin-top: 5em;
     }
 
+    /* Main */
+
     #player1, #player2 {
         flex-direction: row;
     }
@@ -425,13 +437,19 @@ footer {
 
 @media screen and (min-width: 1200px) {
     
+    /* General */
+
     :root {
         font-size: 1.5vw;
     }
 
+    /* Header */
+
     header {
         height: 3em;
     }
+
+    /* Main */
 
     #players {
         position: absolute;
@@ -449,11 +467,16 @@ footer {
         flex-direction: column;
     }
 
-
     #pieces2 {
         order: 1;
     }
+    
+    #name1, #name2 {
+        font-size: 2em;
+    }
 
+    /* Board */
+    
     .board-container {
         margin-top: 10vh;
         padding: 2em;
@@ -466,7 +489,5 @@ footer {
         width: 90%;
     }
 
-    #name1, #name2 {
-        font-size: 2em;
-    }
+    
 }
