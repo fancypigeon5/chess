@@ -1077,18 +1077,19 @@ function checkEndConditions() {
     }
     if (!movesLeft) {
         if (isCheck(turn, document.getElementById(turn + 'King').parentNode.id)) {
-            gameEnding('Checkmate!!!!');
+            let winner = turn === 'white' ? 'BLACK' : 'WHITE';
+            gameEnding(`${winner} WINS: Checkmate!!!!`);
         }
         else {
-            gameEnding('Stalemate!!!!');
+            gameEnding('DRAW: Stalemate!!!!');
         }
     }
     if (movesSinceCapture >= 100) {
-        gameEnding('50 moves since last capture');
+        gameEnding('DRAW: 50 moves rule');
     }
     
     if (searchArray(repeatedPositions, boardState())) {
-        gameEnding('3 time repetition');
+        gameEnding('DRAW: 3 time repetition');
     }
 }
 
@@ -1227,7 +1228,7 @@ function countdown() {
         minutes.innerHTML = Math.floor(whiteSecondsLeft / 60).toString().padStart(2, '0');
         seconds.innerHTML = (whiteSecondsLeft % 60).toString().padStart(2, '0');
         if (whiteSecondsLeft === 0) {
-            gameEnding('White ran out of time');
+            gameEnding('BLACK WINS: White ran out of time');
         }
         whiteSecondsLeft--;
         
@@ -1236,7 +1237,7 @@ function countdown() {
         minutes.innerHTML = Math.floor(blackSecondsLeft / 60).toString().padStart(2, '0');
         seconds.innerHTML = (blackSecondsLeft % 60).toString().padStart(2, '0');
         if (blackSecondsLeft === 0) {
-            gameEnding('Black ran out of time');
+            gameEnding('WHITE WINS: Black ran out of time');
         }
         blackSecondsLeft--;
     }
